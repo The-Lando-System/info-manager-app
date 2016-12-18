@@ -1,2 +1,11 @@
-<h1>{{welcome}}</h1>
-<router-outlet></router-outlet>
+<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+  <a class="navbar-brand" routerLink="/home">{{welcome}}</a>
+  <ul class="nav navbar-nav float-xs-right">
+    <li class="nav-item active">
+      <button class="btn btn-secondary">Login</button>
+    </li>
+  </ul>
+</nav>
+<div class="main">
+  <router-outlet></router-outlet>
+</div>
