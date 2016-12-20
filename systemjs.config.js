@@ -30,6 +30,7 @@
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api',
       'angular2-cookie':           'npm:angular2-cookie',
+      'ng2-bs3-modal':             'npm:ng2-bs3-modal'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -45,6 +46,10 @@
         defaultExtension: 'js'
       },
       'angular2-cookie': {
+        main: './core.js',
+        defaultExtension: 'js'
+      },
+      'ng2-bs3-modal': {
         main: './core.js',
         defaultExtension: 'js'
       }
