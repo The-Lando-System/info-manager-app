@@ -3,6 +3,14 @@
   margin-top: 70px;
 }
 
+.modal-spinner {
+  margin-left: 60px;
+}
+
+.modal-dialog {
+  width: 400px;
+}
+
 .modal-header {
   padding:9px 15px;
   border-bottom:1px solid #eee;
