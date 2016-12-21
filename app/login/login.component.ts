@@ -19,6 +19,13 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     console.log('Login attempted');
+
+    if (this.creds['username'] && this.creds['password']){
+
+    }
+
+
+
     this.modal.close();
   }
 }
