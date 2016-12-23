@@ -1,47 +1,69 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { Broadcaster } from './broadcaster';
 
 @Injectable()
-export class LoginService {
+export class UserService {
 
-  private loginUrl = 'http://localhost:8080/auth/login';
-  private logoutUrl = 'http://localhost:8080/auth/logout';
+  //private loginUrl = 'https://info-manager.herokuapp.com/auth/login';
+  //private logoutUrl = 'https://info-manager.herokuapp.com/auth/logout';
+
+  private loginUrl = 'http://localhost:8090/auth/login';
+  private logoutUrl = 'http://localhost:8090/auth/logout';
+
+  private token: string;
+  private loginHeaders: Headers;
+  private response: Response;
   
   constructor(
     private http: Http,
     private cookieService: CookieService,
-    private broadcaster: Broadcaster,
-    private token: String,
-    private loginHeaders = new Headers({
+    private broadcaster: Broadcaster
+  ){
+    this.loginHeaders = new Headers({
       'Authorization'  : 'Basic ' + btoa('sarlacc:deywannawanga')
     })
-  ){}
+  }
 
   getAuthHeaders(): Headers {
     return new Headers({
       'Content-Type'   : 'application/json',
       'x-access-token'  : this.getToken()
-    })
+    });
   }
 
-  getLoginHeaders(username:String, password:String): Headers {
+  getLoginHeaders(username:string, password:string): Headers {
     return new Headers({
-      'Authorization'  : 'Basic ' + btoa(username + ':' + password);
-    })
+      'Authorization'  : 'Basic ' + btoa(username + ':' + password)
+    });
   }
 
   login(creds: any): void {
-    this.http.post(this.loginUrl, {}, {headers: this.getLoginHeaders(creds.username,creds.password)})
+    console.log(creds);
+
+    var headers = new Headers();
+    headers.append('Authorization', 'Basic ' + btoa(creds.username + ':' + creds.password));
+
+
+    this.http.post(this.loginUrl, {}, {headers: headers})
     .toPromise()
-    .then(res=>{
+    .then(function(res){
+      console.log('SUCCESS');
+      console.log(res);
       var token = res.json();
       this.cookieService.put('access-token',token.access_token);
       this.broadcaster.broadcast('Login','The user logged in');
       this.token = token.access_token;
+      //return this.token;
+    }).catch(function(res:any){
+      console.log('FAILURE');
+      console.log(res);
     });
   }
 
@@ -56,7 +78,7 @@ export class LoginService {
     });
   }
 
-  getToken(): String {
+  getToken(): string {
     if (!this.token){
       this.token = this.cookieService.get('access-token');
     }

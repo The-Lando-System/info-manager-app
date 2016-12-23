@@ -13,6 +13,8 @@ import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 
+import { Broadcaster } from './services/broadcaster';
+
 
 @NgModule({
   imports: [ 
@@ -40,7 +42,10 @@ import { LoginComponent } from './login/login.component';
     NavbarComponent,
     LoginComponent
   ],
-  providers: [],
+  providers: [
+    CookieService,
+    Broadcaster
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
