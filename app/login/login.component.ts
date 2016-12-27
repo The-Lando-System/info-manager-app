@@ -15,6 +15,7 @@ import { UserService } from '../services/user.service';
 export class LoginComponent implements OnInit {
   loginLoading = false;
   creds = {};
+  user = {};
 
   @ViewChild('loginModal')
   modal: ModalComponent;
@@ -29,8 +30,16 @@ export class LoginComponent implements OnInit {
   login(): void {
     console.log('Login attempted');
     event.preventDefault();
+    this.loginLoading = true;
 
-    this.userService.login(this.creds);
+    this.userService.login(this.creds)
+    .then((user:any) => {
+      console.log(user);
+      this.user = user;
+      this.loginLoading = false;
+    }).catch((res:any) => {
+      this.loginLoading = false;
+    });
 
     this.modal.close();
   }

@@ -11,11 +11,11 @@ import { Broadcaster } from './broadcaster';
 @Injectable()
 export class UserService {
 
-  //private loginUrl = 'https://info-manager.herokuapp.com/auth/login';
-  //private logoutUrl = 'https://info-manager.herokuapp.com/auth/logout';
+  private loginUrl = 'https://info-manager.herokuapp.com/auth/login';
+  private logoutUrl = 'https://info-manager.herokuapp.com/auth/logout';
 
-  private loginUrl = 'http://localhost:8090/auth/login';
-  private logoutUrl = 'http://localhost:8090/auth/logout';
+  //private loginUrl = 'http://localhost:8090/auth/login';
+  //private logoutUrl = 'http://localhost:8090/auth/logout';
 
   private token: string;
   private loginHeaders: Headers;
@@ -44,24 +44,23 @@ export class UserService {
     });
   }
 
-  login(creds: any): void {
+  login(creds: any): Promise<any> {
     console.log(creds);
 
     var headers = new Headers();
     headers.append('Authorization', 'Basic ' + btoa(creds.username + ':' + creds.password));
 
 
-    this.http.post(this.loginUrl, {}, {headers: headers})
+    return this.http.post(this.loginUrl, {}, {headers: headers})
     .toPromise()
-    .then(function(res){
+    .then((res:any) => {
       console.log('SUCCESS');
       console.log(res);
-      var token = res.json();
-      this.cookieService.put('access-token',token.access_token);
+      var user = res.json();
+      this.cookieService.put('access-token',user.token.access_token);
       this.broadcaster.broadcast('Login','The user logged in');
-      this.token = token.access_token;
-      //return this.token;
-    }).catch(function(res:any){
+      return user;
+    }).catch((res:any) => {
       console.log('FAILURE');
       console.log(res);
     });
