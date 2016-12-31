@@ -11,10 +11,10 @@ import { Broadcaster } from './broadcaster';
 @Injectable()
 export class UserService {
 
-  private loginUrl = 'https://info-manager.herokuapp.com/auth/login';
+  private loginUrl = 'https://sarlacc.herokuapp.com/oauth/token';
   private logoutUrl = 'https://info-manager.herokuapp.com/auth/logout';
 
-  //private loginUrl = 'http://localhost:8090/auth/login';
+  private getUserUrl = 'http://localhost:8090/auth/login';
   //private logoutUrl = 'http://localhost:8090/auth/logout';
 
   private token: string;
@@ -27,14 +27,17 @@ export class UserService {
     private broadcaster: Broadcaster
   ){
     this.loginHeaders = new Headers({
+      'Content-Type'   : 'application/x-www-form-urlencoded',
       'Authorization'  : 'Basic ' + btoa('sarlacc:deywannawanga')
-    })
+    });
   }
 
   getAuthHeaders(): Headers {
     return new Headers({
       'Content-Type'   : 'application/json',
-      'x-access-token'  : this.getToken()
+      'x-access-token'  : this.getToken(),
+      'Cookie': 'JSESSIONID = 14trr8ogwjvv341shou6k49ti'
+      //'Authorization'  : 'Basic ' + btoa(this.getToken() + ':' + '')
     });
   }
 
@@ -47,21 +50,34 @@ export class UserService {
   login(creds: any): Promise<any> {
     console.log(creds);
 
-    var headers = new Headers();
-    headers.append('Authorization', 'Basic ' + btoa(creds.username + ':' + creds.password));
+    creds.grant_type = 'password';
 
+    let body = `username=${creds.username}&password=${creds.password}&grant_type=${creds.grant_type}`;
 
-    return this.http.post(this.loginUrl, {}, {headers: headers})
+    return this.http.post(this.loginUrl, body, {headers: this.loginHeaders})
     .toPromise()
     .then((res:any) => {
-      console.log('SUCCESS');
+      console.log('LOGIN SUCCESS');
       console.log(res);
-      var user = res.json();
-      this.cookieService.put('access-token',user.token.access_token);
-      this.broadcaster.broadcast('Login','The user logged in');
-      return user;
+      var token = res.json();
+
+      return this.http.post(this.getUserUrl, {}, {headers: this.getLoginHeaders(token.access_token,'')})
+      .toPromise()
+      .then((res:any) => {
+        console.log('GET USER SUCCESS');
+        console.log(res);
+        var user = res.json();
+        this.cookieService.put('access-token',user.token.access_token);
+        this.broadcaster.broadcast('Login','The user logged in');
+        return user;
+      }).catch((res:any) => {
+        console.log('GET USER FAILURE');
+        console.log(res);
+      });
+
+
     }).catch((res:any) => {
-      console.log('FAILURE');
+      console.log('LOGIN FAILURE');
       console.log(res);
     });
   }

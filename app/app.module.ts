@@ -15,6 +15,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 
 import { Broadcaster } from './services/broadcaster';
+import { UserService } from './services/user.service';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { Broadcaster } from './services/broadcaster';
   ],
   providers: [
     CookieService,
-    Broadcaster
+    Broadcaster,
+    UserService
   ],
   bootstrap: [ AppComponent ]
 })
