@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
+import { Folder } from './folder';
 import { UserService } from '../services/user.service';
 
 @Injectable()

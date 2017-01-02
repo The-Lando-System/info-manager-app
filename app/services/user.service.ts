@@ -14,7 +14,7 @@ export class UserService {
   private loginUrl = 'https://sarlacc.herokuapp.com/oauth/token';
   private logoutUrl = 'https://info-manager.herokuapp.com/auth/logout';
 
-  private getUserUrl = 'http://localhost:8090/auth/login';
+  private getUserUrl = 'https://sarlacc.herokuapp.com/user-details';
   //private logoutUrl = 'http://localhost:8090/auth/logout';
 
   private token: string;
@@ -35,15 +35,19 @@ export class UserService {
   getAuthHeaders(): Headers {
     return new Headers({
       'Content-Type'   : 'application/json',
-      'x-access-token'  : this.getToken(),
-      'Cookie': 'JSESSIONID = 14trr8ogwjvv341shou6k49ti'
-      //'Authorization'  : 'Basic ' + btoa(this.getToken() + ':' + '')
+      'x-access-token'  : this.getToken()
     });
   }
 
   getLoginHeaders(username:string, password:string): Headers {
     return new Headers({
       'Authorization'  : 'Basic ' + btoa(username + ':' + password)
+    });
+  }
+
+  getUserHeaders(token:string): Headers {
+    return new Headers({
+      'Authorization'  : 'Bearer ' + token
     });
   }
 
@@ -61,13 +65,13 @@ export class UserService {
       console.log(res);
       var token = res.json();
 
-      return this.http.post(this.getUserUrl, {}, {headers: this.getLoginHeaders(token.access_token,'')})
+      return this.http.post(this.getUserUrl, {}, {headers: this.getUserHeaders(token.access_token)})
       .toPromise()
       .then((res:any) => {
         console.log('GET USER SUCCESS');
         console.log(res);
         var user = res.json();
-        this.cookieService.put('access-token',user.token.access_token);
+        this.cookieService.put('access-token',token.access_token);
         this.broadcaster.broadcast('Login','The user logged in');
         return user;
       }).catch((res:any) => {
