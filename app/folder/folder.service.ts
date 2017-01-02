@@ -7,7 +7,8 @@ import { UserService } from '../services/user.service';
 @Injectable()
 export class FolderService {
 
-  private foldersUrl = 'http://localhost:8090/folders/';
+  //private foldersUrl = 'http://localhost:8090/folders/';
+  private foldersUrl = 'https://info-manager.herokuapp.com/folders/';
 
   constructor(
     private http: Http,
