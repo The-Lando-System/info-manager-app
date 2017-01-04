@@ -1,2 +1,15 @@
-<h4>{{title}}</h4>
-<button class="btn btn-secondary" (click)="getFolders()">Get Folders</button>
+<div id="home">
+
+  <div class="col-sm-4" *ngFor="let folder of folders">
+    <div class="card card-block note-card">
+      <h4 class="card-title">{{folder.name}}</h4>
+      <p class="card-text">
+        <span *ngFor="let note of folder.notes">{{note.title}} : {{note.details}}</span>
+      </p>
+      <div class="note-bottom">
+        <a href="#" class="card-link">More</a>
+      </div>
+    </div>
+  </div>
+
+</div>
