@@ -1,5 +1,5 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Injectable, EventEmitter, OnInit } from '@angular/core';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -7,29 +7,47 @@ import 'rxjs/add/operator/toPromise';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { Broadcaster } from './broadcaster';
+import { User } from './user';
+import { Token } from './token';
 
 @Injectable()
-export class UserService {
+export class UserService implements OnInit {
 
-  private loginUrl = 'https://sarlacc.herokuapp.com/oauth/token';
-  private logoutUrl = 'https://info-manager.herokuapp.com/auth/logout';
+  private tokenUrl = 'https://sarlacc.herokuapp.com/oauth/token';
+  private userUrl = 'https://sarlacc.herokuapp.com/user-details';
 
-  private getUserUrl = 'https://sarlacc.herokuapp.com/user-details';
-  //private logoutUrl = 'http://localhost:8090/auth/logout';
-
-  private token: string;
-  private loginHeaders: Headers;
-  private response: Response;
+  private token: Token;
+  private user: User;
   
   constructor(
     private http: Http,
     private cookieService: CookieService,
     private broadcaster: Broadcaster
   ){
-    this.loginHeaders = new Headers({
-      'Content-Type'   : 'application/x-www-form-urlencoded',
-      'Authorization'  : 'Basic ' + btoa('sarlacc:deywannawanga')
-    });
+    this.ngOnInit();
+  }
+
+  ngOnInit(): void {
+    console.log("ngOnInit - Initializing user and token");
+    this.user = null;
+    this.token = this.getTokenFromCookie();
+    if (this.token) {
+      console.log("ngOnInit - Found a token in the cookies. Retrieving the user");
+      this.retrieveUser(this.token)
+      .then((user:User) => {
+        this.user = user;
+        console.log("ngOnInit - Found a user. Both user and token are initialized");
+      }).catch((error:any) => {
+        console.log("ngOnInit - Failed to retrieve the user. Error below");
+        console.log(error);
+      });
+    } else {
+      console.log("ngOnInit - No token detected. Both user and token are null. User needs to login");
+    }
+  }
+
+  userIsLoggedIn(): boolean {
+    return (this.token != null && this.user != null);
   }
 
   getAuthHeaders(): Headers {
@@ -39,9 +57,90 @@ export class UserService {
     });
   }
 
-  getLoginHeaders(username:string, password:string): Headers {
+  login(creds: any): Promise<User> {
+    console.log("login - logging in with username " + creds.username + " and password " + creds.password);
+    return this.retrieveToken(creds)
+    .then((token:Token) => {
+      this.putTokenInCookie(token);
+      this.token = token;
+      console.log("login - successfully got token and put it in the cookies");
+      return this.retrieveUser(token)
+      .then((user:User) => {
+        this.user = user;
+        console.log("login - successfully got user");
+        return user;
+      }).catch((error:any) => {
+        console.log("login - error retrieving the user. Details below:");
+        console.log(error);
+      });
+    }).catch((error:any) => {
+      console.log("login - Error retrieving the token. Details below:");
+      console.log(error);
+    });
+  }
+
+  getUser(): User {
+    if (!this.userIsLoggedIn) {
+      console.log("getUser - User is not logged in (no token or user). Returning null");
+      return null;
+    }
+
+    console.log("getUser - User and token are set. Returning user");
+    return this.user;
+  }
+
+  getToken(): Token {
+    if (!this.userIsLoggedIn) {
+      console.log("getToken - User is not logged in (no token or user). Returning null");
+      return null;
+    }
+
+    console.log("getToken - User and token are set. Returning token");
+    return this.token;
+  }
+
+  retrieveUser(token:Token): Promise<User> {
+    return this.http.post(this.userUrl, {}, {headers: this.getUserHeaders(token.access_token)})
+      .toPromise()
+      .then((res:any) => {
+        return res.json();
+      }).catch((res:any) => {
+        return res.json();
+      });
+  }
+
+  retrieveToken(creds:any): Promise<Token> {
+
+    creds.grant_type = 'password';
+    let body = `username=${creds.username}&password=${creds.password}&grant_type=${creds.grant_type}`;
+
+    return this.http.post(this.tokenUrl, body, {headers: this.getTokenHeaders()})
+    .toPromise()
+    .then((res:any) => {
+      return res.json();
+    }).catch((res:any) => {
+      return res.json();
+    });
+  }
+
+  putTokenInCookie(token:Token): void {
+    this.cookieService.put('access-token',token.access_token);
+  }
+
+  getTokenFromCookie(): Token {
+    var token: Token = new Token();
+    token.access_token = this.cookieService.get('access-token');
+    return token;
+  }
+
+  removeTokenFromCookie(): void {
+    this.cookieService.remove('access-token');
+  }
+
+  getTokenHeaders(): Headers {
     return new Headers({
-      'Authorization'  : 'Basic ' + btoa(username + ':' + password)
+      'Content-Type'   : 'application/x-www-form-urlencoded',
+      'Authorization'  : 'Basic ' + btoa('sarlacc:deywannawanga')
     });
   }
 
@@ -49,62 +148,6 @@ export class UserService {
     return new Headers({
       'Authorization'  : 'Bearer ' + token
     });
-  }
-
-  login(creds: any): Promise<any> {
-    console.log(creds);
-
-    creds.grant_type = 'password';
-
-    let body = `username=${creds.username}&password=${creds.password}&grant_type=${creds.grant_type}`;
-
-    return this.http.post(this.loginUrl, body, {headers: this.loginHeaders})
-    .toPromise()
-    .then((res:any) => {
-      console.log('LOGIN SUCCESS');
-      console.log(res);
-      var token = res.json();
-
-      return this.http.post(this.getUserUrl, {}, {headers: this.getUserHeaders(token.access_token)})
-      .toPromise()
-      .then((res:any) => {
-        console.log('GET USER SUCCESS');
-        console.log(res);
-        var user = res.json();
-        this.cookieService.put('access-token',token.access_token);
-        this.broadcaster.broadcast('Login','The user logged in');
-        return user;
-      }).catch((res:any) => {
-        console.log('GET USER FAILURE');
-        console.log(res);
-      });
-
-
-    }).catch((res:any) => {
-      console.log('LOGIN FAILURE');
-      console.log(res);
-    });
-  }
-
-  logout(): void {
-    // /auth/logout
-    this.http.post(this.logoutUrl, {}, {})
-    .toPromise()
-    .then(res=>{
-      this.cookieService.remove('access-token');
-      this.broadcaster.broadcast('Logout','The user logged out');
-      this.token = '';
-    });
-  }
-
-  getToken(): string {
-    if (!this.token){
-      this.token = this.cookieService.get('access-token');
-    }
-    if (!this.token){
-      this.logout();
-    }
-    return this.token;
   }
 
 }

@@ -34,10 +34,11 @@ export class LoginComponent implements OnInit {
       console.log(user);
       this.user = user;
       this.loginLoading = false;
+      this.modal.close();
     }).catch((res:any) => {
       this.loginLoading = false;
     });
 
-    this.modal.close();
+    
   }
 }
