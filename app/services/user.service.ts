@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter, OnInit } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
@@ -11,7 +11,7 @@ import { User } from './user';
 import { Token } from './token';
 
 @Injectable()
-export class UserService implements OnInit {
+export class UserService {
 
   //private tokenUrl = 'http://localhost:8080/oauth/token';
   //private userUrl = 'http://localhost:8080/user-details';
@@ -20,36 +20,40 @@ export class UserService implements OnInit {
 
   private token: Token;
   private user: User;
+
+  private initPromise: Promise<any> = this.initialize();
   
   constructor(
     private http: Http,
     private cookieService: CookieService,
     private broadcaster: Broadcaster
-  ){
-    this.ngOnInit();
+  ){}
+
+  initialize(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      console.log("UserSvc Init - Initializing user and token");
+      this.token = this.getTokenFromCookie();
+      if (this.token) {
+        console.log("UserSvc Init - Found a token in the cookies. Retrieving the user");
+        this.retrieveUser(this.token)
+        .then((user:User) => {
+          this.user = user;
+          console.log("UserSvc Init - Found a user. Both user and token are initialized");
+          resolve();
+        }).catch((error:any) => {
+          console.log("UserSvc Init - Failed to retrieve the user. Error below");
+          console.log(error);
+          reject();
+        });
+      } else {
+        console.log("UserSvc Init - No token detected. Both user and token are null. User needs to login");
+        reject();
+      }
+    });
   }
 
-  ngOnInit(): void {
-    console.log("ngOnInit - Initializing user and token");
-    this.user = null;
-    this.token = this.getTokenFromCookie();
-    if (this.token) {
-      console.log("ngOnInit - Found a token in the cookies. Retrieving the user");
-      this.retrieveUser(this.token)
-      .then((user:User) => {
-        this.user = user;
-        console.log("ngOnInit - Found a user. Both user and token are initialized");
-      }).catch((error:any) => {
-        console.log("ngOnInit - Failed to retrieve the user. Error below");
-        console.log(error);
-      });
-    } else {
-      console.log("ngOnInit - No token detected. Both user and token are null. User needs to login");
-    }
-  }
-
-  userIsLoggedIn(): boolean {
-    return (this.token != null && this.user != null);
+  checkIfUserIsLoggedIn(): Promise<any> {
+    return this.initPromise;
   }
 
   getAuthHeaders(): Headers {
@@ -70,6 +74,7 @@ export class UserService implements OnInit {
       .then((user:User) => {
         this.user = user;
         console.log("login - successfully got user");
+        this.broadcaster.broadcast('Login','The user logged in');
         return user;
       }).catch((error:any) => {
         console.log("login - error retrieving the user. Details below:");
@@ -82,22 +87,10 @@ export class UserService implements OnInit {
   }
 
   getUser(): User {
-    if (!this.userIsLoggedIn) {
-      console.log("getUser - User is not logged in (no token or user). Returning null");
-      return null;
-    }
-
-    console.log("getUser - User and token are set. Returning user");
     return this.user;
   }
 
   getToken(): Token {
-    if (!this.userIsLoggedIn) {
-      console.log("getToken - User is not logged in (no token or user). Returning null");
-      return null;
-    }
-
-    console.log("getToken - User and token are set. Returning token");
     return this.token;
   }
 
@@ -130,9 +123,14 @@ export class UserService implements OnInit {
   }
 
   getTokenFromCookie(): Token {
-    var token: Token = new Token();
-    token.access_token = this.cookieService.get('access-token');
-    return token;
+    var access_token = this.cookieService.get('access-token');
+    if (access_token) {
+      var token: Token = new Token();
+      token.access_token = access_token;
+      return token;
+    } else {
+      return null;
+    }
   }
 
   removeTokenFromCookie(): void {

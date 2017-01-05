@@ -20,12 +20,9 @@ export class FolderService {
     return this.http.get(this.foldersUrl, {headers: this.userSvc.getAuthHeaders()})
     .toPromise()
     .then((res:any) => {
-      console.log('GET FOLDERS SUCCESS');
-      console.log(res);
-      var folders = res.json();
-      return folders;
+      return res.json();
     }).catch((res:any) => {
-      console.log('GET FOLDERS FAILURE');
+      console.log('Folder Svc - Error getting folders:');
       console.log(res);
     });
   }

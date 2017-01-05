@@ -1,5 +1,5 @@
-<button *ngIf="!user.username" class="btn btn-secondary" (click)="modal.open()">Login</button>
-<div *ngIf="user.username">
+<button *ngIf="!user" class="btn btn-secondary" (click)="modal.open()">Login</button>
+<div *ngIf="user">
   <span  id="user-title">Welcome, {{user.firstName}}</span>
   <a class="btn btn-secondary" href="#">Manage Account</a>
 </div>

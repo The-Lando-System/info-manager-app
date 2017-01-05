@@ -6,6 +6,11 @@ import { Folder } from '../folder/folder';
 import { NoteService } from '../note/note.service';
 import { Note } from '../note/note';
 
+import { UserService } from '../services/user.service';
+import { User } from '../services/user';
+
+import { Broadcaster } from '../services/broadcaster';
+
 @Component({
   moduleId: module.id,
   selector: 'home',
@@ -23,11 +28,28 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private folderSvc: FolderService,
-    private noteSvc: NoteService
+    private noteSvc: NoteService,
+    private userSvc: UserService,
+    private broadcaster: Broadcaster
   ){}
 
   ngOnInit(): void {
-    this.getFolders();
+
+    this.userSvc.checkIfUserIsLoggedIn()
+    .then((res:any) => {
+      this.getFolders();
+    }).catch((res:any) => {
+      console.log('Not getting folders... User is not logged in');
+    });
+
+    this.listenForLogin();
+  }
+
+  listenForLogin(): void {
+   this.broadcaster.on<string>('Login')
+    .subscribe(message => {
+      this.getFolders();
+    });
   }
 
   getFolders(): void {

@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { UserService } from '../services/user.service';
+import { User } from './services/user';
 
 @Component({
   moduleId: module.id,
@@ -12,7 +13,7 @@ import { UserService } from '../services/user.service';
 export class LoginComponent implements OnInit {
   loginLoading = false;
   creds = {};
-  user = {};
+  user: User;
 
   @ViewChild('loginModal')
   modal: ModalComponent;
@@ -22,6 +23,13 @@ export class LoginComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
+
+    this.userService.checkIfUserIsLoggedIn()
+    .then((res:any) => {
+      this.user = this.userService.getUser();
+    }).catch((error:any) => {
+      console.log("Login Component - User not logged in");
+    })
   }
 
   login(): void {
