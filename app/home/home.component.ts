@@ -53,24 +53,8 @@ export class HomeComponent implements OnInit {
           });
 
         }
-
-        // var note: Note = new Note();
-        // note.title = "Note 1";
-        // note.details = "Note 1 Details";
-        // folder.notes.push(note);
-      }
-
-      // for (var i=0; i<this.folders.length; i++){
-
-      //   var note: Note = new Note();
-      //   note.title = "Note 1";
-      //   note.details = "Note 1 Details";
-
-      //   this.folders[i].notes.push(note);
-        // for (var j=0; j<this.folders[i].noteIds.length; j++){
         
-        // }
-      //}
+      }
 
     }).catch((res:any) => {
 
