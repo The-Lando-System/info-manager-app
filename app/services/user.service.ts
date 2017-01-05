@@ -13,6 +13,8 @@ import { Token } from './token';
 @Injectable()
 export class UserService implements OnInit {
 
+  //private tokenUrl = 'http://localhost:8080/oauth/token';
+  //private userUrl = 'http://localhost:8080/user-details';
   private tokenUrl = 'https://sarlacc.herokuapp.com/oauth/token';
   private userUrl = 'https://sarlacc.herokuapp.com/user-details';
 
@@ -53,7 +55,7 @@ export class UserService implements OnInit {
   getAuthHeaders(): Headers {
     return new Headers({
       'Content-Type'   : 'application/json',
-      'x-access-token'  : this.getToken()
+      'x-access-token'  : this.getToken().access_token
     });
   }
 
