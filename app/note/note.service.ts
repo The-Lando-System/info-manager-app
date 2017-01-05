@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { Note } from './note';
-import { UserService } from '../services/user.service';
+//import { UserService } from '../services/user.service';
+import { UserService } from 'sarlacc-js-client/dist/user.service';
 
 @Injectable()
 export class NoteService {

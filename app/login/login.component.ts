@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
-import { UserService } from '../services/user.service';
-import { User } from './services/user';
+//import { UserService } from '../services/user.service';
+import { UserService } from 'sarlacc-js-client/dist/user.service';
+import { User } from '../services/user';
 
 @Component({
   moduleId: module.id,

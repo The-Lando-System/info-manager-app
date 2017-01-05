@@ -6,10 +6,12 @@ import { Folder } from '../folder/folder';
 import { NoteService } from '../note/note.service';
 import { Note } from '../note/note';
 
-import { UserService } from '../services/user.service';
+//import { UserService } from '../services/user.service';
+import { UserService } from 'sarlacc-js-client/dist/user.service';
 import { User } from '../services/user';
 
-import { Broadcaster } from '../services/broadcaster';
+//import { Broadcaster } from '../services/broadcaster';
+import { Broadcaster } from 'sarlacc-js-client/dist/broadcaster';
 
 @Component({
   moduleId: module.id,
