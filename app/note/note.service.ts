@@ -5,16 +5,19 @@ import { Note } from './note';
 //import { UserService } from '../services/user.service';
 import { UserService } from 'sarlacc-js-client/dist/user.service';
 
+import { Globals } from '../globals';
+
 @Injectable()
 export class NoteService {
-
-  private notesUrl = 'https://info-manager.herokuapp.com/notes/';
 
   constructor(
     private http: Http,
     private userSvc: UserService
   ){}
 
+  globals: Globals = new Globals();
+
+  private notesUrl = this.globals.svc_domain + '/notes/';
 
   getNotes(): Promise<Note[]> {
     return this.http.get(this.notesUrl, {headers: this.userSvc.getAuthHeaders()})

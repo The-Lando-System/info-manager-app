@@ -5,17 +5,19 @@ import { Folder } from './folder';
 //import { UserService } from '../services/user.service';
 import { UserService } from 'sarlacc-js-client/dist/user.service';
 
+import { Globals } from '../globals';
+
 @Injectable()
 export class FolderService {
-
-  //private foldersUrl = 'http://localhost:8090/folders/';
-  private foldersUrl = 'https://info-manager.herokuapp.com/folders/';
 
   constructor(
     private http: Http,
     private userSvc: UserService
   ){}
 
+  globals: Globals = new Globals();
+
+  private foldersUrl = this.globals.svc_domain + '/folders/';
 
   getFolders(): Promise<Folder[]> {
     return this.http.get(this.foldersUrl, {headers: this.userSvc.getAuthHeaders()})

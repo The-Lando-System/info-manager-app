@@ -32,7 +32,7 @@
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api',
       'angular2-cookie':           'npm:angular2-cookie',
       'ng2-bs3-modal':             'npm:ng2-bs3-modal',
-      'sarlacc-js-client':         'npm:sarlacc-js-client'
+      'sarlacc-js-client':         'npm:sarlacc-js-client',
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
