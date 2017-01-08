@@ -45,22 +45,28 @@ export class HomeComponent implements OnInit {
     });
 
     this.listenForLogin();
+    this.listenForLogout();
   }
 
   listenForLogin(): void {
-   this.broadcaster.on<string>('Login')
+   this.broadcaster.on<string>(this.userSvc.LOGIN_BCAST)
     .subscribe(message => {
       this.getFolders();
     });
   }
 
+  listenForLogout(): void {
+    this.broadcaster.on<string>(this.userSvc.LOGOUT_BCAST)
+    .subscribe(message => {
+      this.folders = null;
+    });
+  }
+
   getFolders(): void {
-    console.log('Attempting to get folders');
     event.preventDefault();
 
     this.folderSvc.getFolders()
     .then((folders:any) => {
-      console.log(folders);
       this.folders = folders;
 
       for (let folder of this.folders) {
@@ -70,7 +76,6 @@ export class HomeComponent implements OnInit {
 
           this.noteSvc.getNoteById(noteId)
           .then((note:any) => {
-            console.log(note);
             folder.notes.push(note);
           }).catch((res:any) => {
 

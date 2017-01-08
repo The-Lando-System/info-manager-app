@@ -2,3 +2,16 @@
   color: white;
   margin-right: 30px;
 }
+
+.in-line {
+  display: inline-block;
+}
+
+.dropdown {
+
+}
+
+.dropdown button {
+  opacity: 0.3;
+}
+

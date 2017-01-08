@@ -23,13 +23,9 @@ export class NoteService {
     return this.http.get(this.notesUrl, {headers: this.userSvc.getAuthHeaders()})
     .toPromise()
     .then((res:any) => {
-      console.log('GET NOTES SUCCESS');
-      console.log(res);
       var notes = res.json();
       return notes;
     }).catch((res:any) => {
-      console.log('GET NOTES FAILURE');
-      console.log(res);
     });
   }
 
@@ -37,13 +33,9 @@ export class NoteService {
     return this.http.get(this.notesUrl + id, {headers: this.userSvc.getAuthHeaders()})
     .toPromise()
     .then((res:any) => {
-      console.log('GET NOTE SUCCESS');
-      console.log(res);
       var note = res.json();
       return note;
     }).catch((res:any) => {
-      console.log('GET NOTE FAILURE');
-      console.log(res);
     });
   }
 

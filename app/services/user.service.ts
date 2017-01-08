@@ -1,11 +1,9 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/toPromise';
+import { Injectable } from '@angular/core';
+import { Http, Headers } from '@angular/http';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Logger } from "angular2-logger/core";
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/toPromise';
 
 import { Broadcaster } from './broadcaster';
 import { User } from './user';
@@ -23,6 +21,9 @@ export class UserService {
   private user: User;
 
   private initPromise: Promise<any> = this.initialize();
+
+  public LOGIN_BCAST = 'LOGIN';
+  public LOGOUT_BCAST = 'LOGOUT';
   
   constructor(
     private logger: Logger,
@@ -83,7 +84,7 @@ export class UserService {
         .then((user:User) => {
           this.logger.info(this.TAG + 'Login successful');
           this.user = user;
-          this.broadcaster.broadcast('Login','The user logged in');
+          this.broadcastLogin('User ' + user.username + ' has logged in!');
           resolve(user);
         }).catch((error:any) => {
           this.logger.info(this.TAG + 'Login failed');
@@ -104,7 +105,7 @@ export class UserService {
     this.removeTokenFromCookie();
     this.token = null;
     this.user = null;
-    this.broadcaster.broadcast('Logout','The user is logged out');
+    this.broadcastLogout('User has logged out!');
   }
 
   getUser(): User {
@@ -178,6 +179,14 @@ export class UserService {
     }
     this.logger.debug(this.TAG + 'Resolved error: ' + message);
     return message;
+  }
+
+  private broadcastLogin(message:string): void {
+    this.broadcaster.broadcast(this.LOGIN_BCAST,message);
+  }
+
+  private broadcastLogout(message:string): void {
+    this.broadcaster.broadcast(this.LOGOUT_BCAST,message);
   }
 
   private putTokenInCookie(token:Token): void {

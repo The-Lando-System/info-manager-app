@@ -47,11 +47,18 @@ export class LoginComponent implements OnInit {
       this.user = user;
       this.loginLoading = false;
       this.modal.close();
+      this.creds = {};
     }).catch((error:any) => {
       this.loginLoading = false;
       this.errorMessage = error;
     });
+  }
 
-    
+  logout(): void {
+    event.preventDefault();
+    if (confirm('Are you sure you want to logout?')){
+      this.userService.logout();
+      this.user = null;
+    }
   }
 }

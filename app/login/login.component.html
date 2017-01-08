@@ -1,7 +1,16 @@
 <button *ngIf="!user" class="btn btn-secondary" (click)="modal.open()">Login</button>
 <div *ngIf="user">
-  <span  id="user-title">Welcome, {{user.firstName}}</span>
-  <a class="btn btn-secondary" href="#">Manage Account</a>
+  <div class="in-line"><span  id="user-title">Welcome, {{user.firstName}}</span></div>
+  <div class="in-line dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog fa-lg" aria-hidden="true"></i>
+    </button>
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" href="#">Account Details</a>
+      <a class="dropdown-item" href="#">Edit User</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="" (click)="logout()">Logout</a>
+    </div>
+  </div>
 </div>
 
 
@@ -14,7 +23,10 @@
       <md-input placeholder="username" [(ngModel)]="creds.username" name="username" required></md-input>
       <md-input placeholder="password" type="password" [(ngModel)]="creds.password" name="password" required></md-input>
       <i *ngIf="loginLoading" class="fa fa-spinner fa-spin fa-3x modal-spinner" aria-hidden="true"></i>
-      <p *ngIf="errorMessage">{{errorMessage}}</p>
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Error!</strong> {{errorMessage}}
+      </div>
     </modal-body>
     <modal-footer>
       <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>

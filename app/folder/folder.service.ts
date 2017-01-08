@@ -25,8 +25,6 @@ export class FolderService {
     .then((res:any) => {
       return res.json();
     }).catch((res:any) => {
-      console.log('Folder Svc - Error getting folders:');
-      console.log(res);
     });
   }
 
