@@ -27,37 +27,23 @@
       '@ng-bootstrap/ng-bootstrap': 'npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
 
       // other libraries
-      'hammerjs':                  'npm:hammerjs',
-      'rxjs':                      'npm:rxjs',
+      'hammerjs': 'npm:hammerjs',
+      'rxjs': 'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api',
-      'angular2-cookie':           'npm:angular2-cookie',
-      'ng2-bs3-modal':             'npm:ng2-bs3-modal',
-      'sarlacc-js-client':         'npm:sarlacc-js-client',
+      'angular2-cookie': 'npm:angular2-cookie',
+      'ng2-bs3-modal': 'npm:ng2-bs3-modal',
+      'angular2-logger': 'npm:angular2-logger',
+      'sarlacc-js-client': 'npm:sarlacc-js-client',
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
-      app: {
-        main: './main.js',
-        defaultExtension: 'js'
-      },
-      rxjs: {
-        defaultExtension: 'js'
-      },
-      'angular-in-memory-web-api': {
-        main: './index.js',
-        defaultExtension: 'js'
-      },
-      'angular2-cookie': {
-        main: './core.js',
-        defaultExtension: 'js'
-      },
-      'ng2-bs3-modal': {
-        main: './core.js',
-        defaultExtension: 'js'
-      },
-      'sarlacc-js-client': {
-        defaultExtension: 'js'
-      }
+      app: { main: './main.js', defaultExtension: 'js' },
+      rxjs: { defaultExtension: 'js' },
+      'angular-in-memory-web-api': { main: './index.js', defaultExtension: 'js' },
+      'angular2-cookie': { main: './core.js', defaultExtension: 'js' },
+      'ng2-bs3-modal': { main: './core.js', defaultExtension: 'js' },
+      'sarlacc-js-client': { defaultExtension: 'js' },
+      'angular2-logger': { defaultExtension: 'js' }
     }
   });
 })(this);

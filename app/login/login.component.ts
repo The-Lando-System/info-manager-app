@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
   creds = {};
   user: User;
 
+  private errorMessage = '';
+
   @ViewChild('loginModal')
   modal: ModalComponent;
 
@@ -25,27 +27,29 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.errorMessage = '';
+
     this.userService.checkIfUserIsLoggedIn()
     .then((res:any) => {
       this.user = this.userService.getUser();
-    }).catch((error:any) => {
-      console.log("Login Component - User not logged in");
+    }).catch((error:string) => {
+      
     })
   }
 
   login(): void {
-    console.log('Login attempted');
     event.preventDefault();
     this.loginLoading = true;
+    this.errorMessage = '';
 
     this.userService.login(this.creds)
     .then((user:any) => {
-      console.log(user);
       this.user = user;
       this.loginLoading = false;
       this.modal.close();
-    }).catch((res:any) => {
+    }).catch((error:any) => {
       this.loginLoading = false;
+      this.errorMessage = error;
     });
 
     

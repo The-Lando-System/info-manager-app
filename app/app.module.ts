@@ -8,6 +8,7 @@ import 'hammerjs/hammer.js';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { Logger } from "angular2-logger/core";
 
 import { AppComponent }  from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -46,6 +47,7 @@ import { UserService } from './services/user.service';
     LoginComponent
   ],
   providers: [
+    Logger,
     CookieService,
     Broadcaster,
     UserService

@@ -14,6 +14,7 @@
       <md-input placeholder="username" [(ngModel)]="creds.username" name="username" required></md-input>
       <md-input placeholder="password" type="password" [(ngModel)]="creds.password" name="password" required></md-input>
       <i *ngIf="loginLoading" class="fa fa-spinner fa-spin fa-3x modal-spinner" aria-hidden="true"></i>
+      <p *ngIf="errorMessage">{{errorMessage}}</p>
     </modal-body>
     <modal-footer>
       <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
