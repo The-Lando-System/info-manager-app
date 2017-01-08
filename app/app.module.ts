@@ -14,10 +14,10 @@ import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 
-//import { Broadcaster } from './services/broadcaster';
-//import { UserService } from './services/user.service';
-import { Broadcaster } from 'sarlacc-js-client/dist/broadcaster';
-import { UserService } from 'sarlacc-js-client/dist/user.service';
+import { Broadcaster } from './services/broadcaster';
+import { UserService } from './services/user.service';
+//import { Broadcaster } from 'sarlacc-js-client/dist/broadcaster';
+//import { UserService } from 'sarlacc-js-client/dist/user.service';
 
 @NgModule({
   imports: [ 

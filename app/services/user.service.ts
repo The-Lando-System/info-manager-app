@@ -43,6 +43,7 @@ export class UserService {
         }).catch((error:any) => {
           console.log("UserSvc Init - Failed to retrieve the user. Error below");
           console.log(error);
+          this.logout();
           reject();
         });
       } else {
@@ -79,11 +80,19 @@ export class UserService {
       }).catch((error:any) => {
         console.log("login - error retrieving the user. Details below:");
         console.log(error);
+        this.logout();
       });
     }).catch((error:any) => {
       console.log("login - Error retrieving the token. Details below:");
       console.log(error);
     });
+  }
+
+  logout(): void {
+    this.removeTokenFromCookie();
+    this.token = null;
+    this.user = null;
+    this.broadcaster.broadcast('Logout','The user is logged out');
   }
 
   getUser(): User {
@@ -95,26 +104,39 @@ export class UserService {
   }
 
   retrieveUser(token:Token): Promise<User> {
-    return this.http.post(this.userUrl, {}, {headers: this.getUserHeaders(token.access_token)})
-      .toPromise()
-      .then((res:any) => {
-        return res.json();
-      }).catch((res:any) => {
-        return res.json();
-      });
+    return new Promise((resolve, reject) => {
+      this.http.post(this.userUrl, {}, {headers: this.getUserHeaders(token.access_token)})
+        .toPromise()
+        .then((res:any) => {
+          resolve(res.json());
+        }).catch((res:any) => {
+          var error = res.json();
+
+          // Most likely a bad token
+          if (error.error === 'invalid_token'){
+            reject('Detected invalid token.. Logging the user out');
+          } else {
+            reject('Encountered error trying to retrieve user details');
+          }
+
+        });
+    });
   }
 
   retrieveToken(creds:any): Promise<Token> {
 
     creds.grant_type = 'password';
+    
     let body = `username=${creds.username}&password=${creds.password}&grant_type=${creds.grant_type}`;
 
-    return this.http.post(this.tokenUrl, body, {headers: this.getTokenHeaders()})
-    .toPromise()
-    .then((res:any) => {
-      return res.json();
-    }).catch((res:any) => {
-      return res.json();
+    return new Promise((resolve, reject) => {
+      this.http.post(this.tokenUrl, body, {headers: this.getTokenHeaders()})
+      .toPromise()
+      .then((res:any) => {
+        resolve(res.json());
+      }).catch((res:any) => {
+        reject('Encountered error trying to retrieve token');
+      });
     });
   }
 
