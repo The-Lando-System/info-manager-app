@@ -1,17 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import { UserService } from 'sarlacc-js-client/dist/user.service';
+import { User } from 'sarlacc-js-client/dist/user';
+import { Broadcaster } from 'sarlacc-js-client/dist/broadcaster';
+
 import { FolderService } from '../folder/folder.service';
 import { Folder } from '../folder/folder';
 
 import { NoteService } from '../note/note.service';
 import { Note } from '../note/note';
-
-import { UserService } from '../services/user.service';
-//import { UserService } from 'sarlacc-js-client/dist/user.service';
-import { User } from '../services/user';
-
-import { Broadcaster } from '../services/broadcaster';
-//import { Broadcaster } from 'sarlacc-js-client/dist/broadcaster';
 
 @Component({
   moduleId: module.id,
