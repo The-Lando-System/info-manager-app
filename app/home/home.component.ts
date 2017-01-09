@@ -25,6 +25,8 @@ export class HomeComponent implements OnInit {
   @Input()
   folders: Folder[];
 
+  private homeLoading = false;
+
   constructor(
     private folderSvc: FolderService,
     private noteSvc: NoteService,
@@ -62,9 +64,13 @@ export class HomeComponent implements OnInit {
   getFolders(): void {
     event.preventDefault();
 
+    this.homeLoading = true;
+
     this.folderSvc.getFolders()
     .then((folders:any) => {
       this.folders = folders;
+
+      this.homeLoading = false;
 
       for (let folder of this.folders) {
         folder.notes = [];
@@ -83,7 +89,7 @@ export class HomeComponent implements OnInit {
       }
 
     }).catch((res:any) => {
-
+      this.homeLoading = false;
     });
 
   }

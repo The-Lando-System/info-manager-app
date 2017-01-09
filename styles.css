@@ -23,3 +23,27 @@
    border-top-left-radius: 4px;
    border-top-right-radius: 4px;
 }
+
+.center-page {
+  width: 100px;
+  height: 100px;
+
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  margin: auto;
+}
+
+#loading-title {
+  position: relative;
+  top: -80px;
+  margin-left: -30px;
+}
+
+#loading-spinner {
+  position: relative;
+  top: -60px;
+}
