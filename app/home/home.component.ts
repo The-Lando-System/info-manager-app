@@ -25,6 +25,10 @@ export class HomeComponent implements OnInit {
   @Input()
   folders: Folder[];
 
+  user: User;
+
+  private creatingFolder = false;
+
   private homeLoading = false;
 
   constructor(
@@ -39,6 +43,7 @@ export class HomeComponent implements OnInit {
     this.userSvc.checkIfUserIsLoggedIn()
     .then((res:any) => {
       this.getFolders();
+      this.user = this.userSvc.getUser();
     }).catch((res:any) => {
       console.log('Not getting folders... User is not logged in');
     });
@@ -50,7 +55,8 @@ export class HomeComponent implements OnInit {
   listenForLogin(): void {
    this.broadcaster.on<string>(this.userSvc.LOGIN_BCAST)
     .subscribe(message => {
-      this.getFolders();
+      // this.getFolders();
+      this.ngOnInit();
     });
   }
 
@@ -58,6 +64,7 @@ export class HomeComponent implements OnInit {
     this.broadcaster.on<string>(this.userSvc.LOGOUT_BCAST)
     .subscribe(message => {
       this.folders = null;
+      this.user = null;
     });
   }
 
@@ -90,6 +97,18 @@ export class HomeComponent implements OnInit {
 
     }).catch((res:any) => {
       this.homeLoading = false;
+    });
+
+  }
+
+  createFolder(): void {
+    event.preventDefault();
+
+    this.folderSvc.createFolder()
+    .then((folder:any) => {
+      this.folders.push(folder);
+    }).catch((error:any) => {
+
     });
 
   }

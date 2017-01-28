@@ -25,6 +25,17 @@ export class FolderService {
     .then((res:any) => {
       return res.json();
     }).catch((res:any) => {
+      console.log('Encountered error getting servers');
+    });
+  }
+
+  createFolder(): Promise<Folder> {
+    return this.http.post(this.foldersUrl, {headers: this.userSvc.getAuthHeaders()})
+    .toPromise()
+    .then((res:any) => {
+      return res.json();
+    }).catch((res:any) => {
+      console.log('Encountered error creating a folder');
     });
   }
 
