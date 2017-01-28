@@ -15,6 +15,10 @@
   margin-bottom: 10px;
 }
 
-#new-folder-name {
+.new-folder-row {
+  min-height: 50px;
+}
+
+.new-folder-element {
   margin-left: 20px;
 }

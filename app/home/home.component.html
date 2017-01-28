@@ -1,10 +1,13 @@
 <div *ngIf="user" id="home">
 
-  <div class="row">
+  <div class="row new-folder-row">
     <div class="container">
-      <button *ngIf="!creatingFolder" class="btn btn-secondary" (click)="creatingFolder = true">New Folder</button>
-      <button *ngIf="creatingFolder" class="btn btn-secondary" (click)="createFolder()">Create</button>
-      <md-input *ngIf="creatingFolder" id="new-folder-name" placeholder="Folder Name" [(ngModel)]="newFolder" name="folderName" required></md-input>
+      <button class="btn btn-secondary" (click)="creatingFolder = !creatingFolder">
+        <span *ngIf="!creatingFolder">New Folder</span>
+        <span *ngIf="creatingFolder">Cancel</span>
+      </button>
+      <md-input *ngIf="creatingFolder" class="new-folder-element" placeholder="Folder Name" [(ngModel)]="newFolder" name="folderName" required></md-input>
+      <button *ngIf="creatingFolder" class="btn btn-secondary new-folder-element" (click)="createFolder()">Create</button>
     </div>
   </div>
   
