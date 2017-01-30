@@ -6,7 +6,7 @@
         <span *ngIf="!creatingFolder">New Folder</span>
         <span *ngIf="creatingFolder">Cancel</span>
       </button>
-      <md-input *ngIf="creatingFolder" class="new-folder-element" placeholder="Folder Name" [(ngModel)]="newFolder" name="folderName" required></md-input>
+      <md-input *ngIf="creatingFolder" class="new-folder-element" placeholder="Folder Name" [(ngModel)]="newFolder.name" name="folderName" required></md-input>
       <button *ngIf="creatingFolder" class="btn btn-secondary new-folder-element" (click)="createFolder()">Create</button>
     </div>
   </div>

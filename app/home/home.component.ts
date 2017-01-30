@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   folders: Folder[];
 
   user: User;
+  newFolder: Folder = new Folder();
 
   private creatingFolder = false;
 
@@ -55,8 +56,8 @@ export class HomeComponent implements OnInit {
   listenForLogin(): void {
    this.broadcaster.on<string>(this.userSvc.LOGIN_BCAST)
     .subscribe(message => {
-      // this.getFolders();
-      this.ngOnInit();
+      this.getFolders();
+      this.user = this.userSvc.getUser();
     });
   }
 
@@ -104,7 +105,7 @@ export class HomeComponent implements OnInit {
   createFolder(): void {
     event.preventDefault();
 
-    this.folderSvc.createFolder()
+    this.folderSvc.createFolder(this.newFolder)
     .then((folder:any) => {
       this.folders.push(folder);
     }).catch((error:any) => {

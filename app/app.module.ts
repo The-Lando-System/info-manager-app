@@ -17,6 +17,7 @@ import { AppComponent }  from './app.component';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
+import { FolderDetailsComponent } from './folder/folder-details.component';
 
 @NgModule({
   imports: [ 
@@ -35,6 +36,10 @@ import { LoginComponent } from './login/login.component';
       {
         path: 'home',
         component: HomeComponent
+      },
+      {
+        path: 'folder/:id',
+        component: FolderDetailsComponent
       }
     ])
   ],
@@ -42,7 +47,8 @@ import { LoginComponent } from './login/login.component';
   	AppComponent,
   	HomeComponent,
     NavbarComponent,
-    LoginComponent
+    LoginComponent,
+    FolderDetailsComponent
   ],
   providers: [
     Logger,
