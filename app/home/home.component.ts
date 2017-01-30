@@ -114,4 +114,19 @@ export class HomeComponent implements OnInit {
 
   }
 
+  deleteFolder(folderId:String): void {
+    event.preventDefault();
+
+    this.folderSvc.deleteFolderById(folderId)
+    .then((res:any) => {
+      for(var i=0; i<this.folders.length; i++){
+        if (this.folders[i].id === folderId){
+          this.folders.splice(i,1);
+        }
+      }
+    }).catch((error:any) => {
+
+    });
+  }
+
 }

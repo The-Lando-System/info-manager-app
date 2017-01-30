@@ -29,6 +29,16 @@ export class FolderService {
     });
   }
 
+  getFolderById(folderId:String): Promise<Folder> {
+    return this.http.get(this.foldersUrl + '/' + folderId, {headers: this.userSvc.getAuthHeaders()})
+    .toPromise()
+    .then((res:any) => {
+      return res.json();
+    }).catch((res:any) => {
+      console.log('Encountered error getting folder with ID ' + folderId);
+    });
+  }
+
   createFolder(newFolder:Folder): Promise<Folder> {
     return this.http.post(this.foldersUrl, newFolder, {headers: this.userSvc.getAuthHeaders()})
     .toPromise()
@@ -39,13 +49,13 @@ export class FolderService {
     });
   }
 
-  getFolderById(folderId:String): Promise<Folder> {
-    return this.http.get(this.foldersUrl + '/' + folderId, {headers: this.userSvc.getAuthHeaders()})
+  deleteFolderById(folderId:String): Promise<void> {
+    return this.http.delete(this.foldersUrl + '/' + folderId, {headers: this.userSvc.getAuthHeaders()})
     .toPromise()
     .then((res:any) => {
-      return res.json();
+
     }).catch((res:any) => {
-      console.log('Encountered error getting folder with ID ' + folderId);
+      console.log('Encountered error deleting folder with ID ' + folderId);
     });
   }
 

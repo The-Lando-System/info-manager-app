@@ -19,7 +19,8 @@
         <span *ngFor="let note of folder.notes">{{note.title}} : {{note.details}}</span>
       </p>
       <div class="note-bottom">
-        <a href="#" class="card-link">More</a>
+          <a [routerLink]="'/folder/' + folder.id" routerLinkActive="active" class="card-link">More</a>
+          <a (click)="deleteFolder(folder.id)" href="#" class="card-link">Delete</a>
       </div>
     </div>
   </div>

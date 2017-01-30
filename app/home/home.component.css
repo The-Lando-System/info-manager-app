@@ -22,3 +22,7 @@
 .new-folder-element {
   margin-left: 20px;
 }
+
+.pull-right {
+  float: right;
+}
