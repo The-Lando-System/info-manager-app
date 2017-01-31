@@ -17,6 +17,7 @@ export class NoteService {
   globals: Globals = new Globals();
 
   private notesUrl = this.globals.svc_domain + '/notes/';
+  private foldersUrl = this.globals.svc_domain + '/folders/';
 
   getNotes(): Promise<Note[]> {
     return this.http.get(this.notesUrl, {headers: this.userSvc.getAuthHeaders()})
@@ -35,6 +36,23 @@ export class NoteService {
       var note = res.json();
       return note;
     }).catch((res:any) => {
+    });
+  }
+
+  createNoteInFolder(newNote:Note, folderId:String): Promise<Note> {
+    return this.http.post(this.notesUrl, newNote, {headers: this.userSvc.getAuthHeaders()})
+    .toPromise()
+    .then((res:any) => {
+      var note = res.json();
+      return this.http.post(this.foldersUrl + folderId + '/' + note.id, {}, {headers: this.userSvc.getAuthHeaders()})
+      .toPromise()
+      .then((res:any) => {
+        return note;
+      }).catch((res:any) => {
+        console.log('Failed to add note to folder');
+      });
+    }).catch((res:any) => {
+      console.log('Failed to create new note');
     });
   }
 

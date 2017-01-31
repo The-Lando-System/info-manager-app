@@ -1,6 +1,13 @@
 <div *ngIf="folder" class="card card-block note-card">
   <h4 class="card-title">{{folder.name}}</h4>
+  <div>
+    <form (ngSubmit)="createNewNote()" #newNoteForm="ngForm">
+      <md-input placeholder="Title" [(ngModel)]="newNote.title" name="new-note-title" required></md-input>
+      <md-input placeholder="Details" [(ngModel)]="newNote.details" name="new-note-details" required></md-input>
+      <button type="submit" class="btn btn-secondary" [disabled]="!newNoteForm.form.valid">Add</button>
+    </form>
+  </div>
   <p class="card-text">
-    <span *ngFor="let note of folder.notes">{{note.title}} : {{note.details}}</span>
+    <span *ngFor="let note of folder.notes">{{note.title}} : {{note.details}}<br/></span>
   </p>
 </div>

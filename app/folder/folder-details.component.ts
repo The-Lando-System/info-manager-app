@@ -24,6 +24,7 @@ import { Note } from '../note/note';
 export class FolderDetailsComponent implements OnInit {
 
   folder:Folder;
+  newNote:Note = new Note();
 
   constructor(
     private folderSvc: FolderService,
@@ -62,5 +63,15 @@ export class FolderDetailsComponent implements OnInit {
     });
   }
   
+  createNewNote(): void {
+
+    this.noteSvc.createNoteInFolder(this.newNote, this.folder.id)
+    .then((note:Note) => {
+      this.folder.noteIds.push(note.id);
+      this.folder.notes.push(note);
+    }).catch((res:any) => {
+
+    });
+  }
 
 }

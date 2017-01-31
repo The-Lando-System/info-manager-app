@@ -16,7 +16,7 @@
     <div class="card card-block note-card">
       <h4 class="card-title">{{folder.name}}</h4>
       <p class="card-text">
-        <span *ngFor="let note of folder.notes">{{note.title}} : {{note.details}}</span>
+        <span *ngFor="let note of folder.notes">{{note.title}} : {{note.details}}<br/></span>
       </p>
       <div class="note-bottom">
           <a [routerLink]="'/folder/' + folder.id" routerLinkActive="active" class="card-link">More</a>
