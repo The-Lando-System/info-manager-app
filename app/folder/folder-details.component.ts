@@ -53,14 +53,10 @@ export class FolderDetailsComponent implements OnInit {
         this.noteSvc.getNoteById(noteId)
         .then((note:any) => {
           this.folder.notes.push(note);
-        }).catch((res:any) => {
-
-        });
+        }).catch((res:any) => {});
 
       }
-    }).catch((res:any) => {
-
-    });
+    }).catch((res:any) => {});
   }
   
   createNewNote(): void {
@@ -69,9 +65,28 @@ export class FolderDetailsComponent implements OnInit {
     .then((note:Note) => {
       this.folder.noteIds.push(note.id);
       this.folder.notes.push(note);
-    }).catch((res:any) => {
+    }).catch((res:any) => {});
+  }
 
-    });
+  deleteNote(note:Note): void {
+    event.preventDefault();
+
+    this.noteSvc.deleteNoteFromFolder(note, this.folder.id)
+    .then((res:any) => {
+      for(var i=0; i<this.folder.noteIds.length; i++){
+        if (this.folder.noteIds[i] === note.id){
+          this.folder.noteIds.splice(i,1);
+        }
+      }
+
+      for(var i=0; i<this.folder.notes.length; i++){
+        if (this.folder.notes[i].id === note.id){
+          this.folder.notes.splice(i,1);
+        }
+      }
+
+
+    }).catch((res:any) => {})
   }
 
 }

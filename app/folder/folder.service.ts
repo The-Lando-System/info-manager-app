@@ -17,6 +17,7 @@ export class FolderService {
 
   globals: Globals = new Globals();
 
+  private notesUrl = this.globals.svc_domain + '/notes/';
   private foldersUrl = this.globals.svc_domain + '/folders/';
 
   getFolders(): Promise<Folder[]> {
@@ -50,6 +51,26 @@ export class FolderService {
   }
 
   deleteFolderById(folderId:String): Promise<void> {
+
+    this.getFolderById(folderId)
+    .then((folderToDelete:Folder) => {
+
+      for (var i=0; i<folderToDelete.noteIds.length; i++){
+
+        this.http.delete(this.notesUrl + folderToDelete.noteIds[i], {headers: this.userSvc.getAuthHeaders()})
+        .toPromise()
+        .then((res:any) => {
+          
+        }).catch((res:any) => {})
+
+
+      }
+
+
+    }).catch((res:any) => {
+
+    })
+
     return this.http.delete(this.foldersUrl + '/' + folderId, {headers: this.userSvc.getAuthHeaders()})
     .toPromise()
     .then((res:any) => {

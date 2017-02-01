@@ -56,4 +56,17 @@ export class NoteService {
     });
   }
 
+  deleteNoteFromFolder(noteToDelete:Note, folderId:String): Promise<void> {
+    return this.http.delete(this.foldersUrl + folderId + '/' + noteToDelete.id, {headers: this.userSvc.getAuthHeaders()})
+    .toPromise()
+    .then((res:any) => {
+      return this.http.delete(this.notesUrl + noteToDelete.id, {headers: this.userSvc.getAuthHeaders()})
+      .toPromise()
+      .then((res:any) => {
+        
+      }).catch((res:any) => {});
+    }).catch((res:any) => {})
+    
+  }
+
 }
