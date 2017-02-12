@@ -40,33 +40,25 @@ export class NoteService {
   }
 
   createNoteInFolder(newNote:Note, folderId:String): Promise<Note> {
-    return this.http.post(this.notesUrl, newNote, {headers: this.userSvc.getAuthHeaders()})
+    return this.http.post(this.notesUrl + folderId, newNote, {headers: this.userSvc.getAuthHeaders()})
     .toPromise()
     .then((res:any) => {
       var note = res.json();
-      return this.http.post(this.foldersUrl + folderId + '/' + note.id, {}, {headers: this.userSvc.getAuthHeaders()})
-      .toPromise()
-      .then((res:any) => {
-        return note;
-      }).catch((res:any) => {
-        console.log('Failed to add note to folder');
-      });
+      return note;
     }).catch((res:any) => {
       console.log('Failed to create new note');
     });
   }
 
   deleteNoteFromFolder(noteToDelete:Note, folderId:String): Promise<void> {
-    return this.http.delete(this.foldersUrl + folderId + '/' + noteToDelete.id, {headers: this.userSvc.getAuthHeaders()})
+
+    return this.http.delete(this.notesUrl + noteToDelete.id + '/' + folderId, {headers: this.userSvc.getAuthHeaders()})
     .toPromise()
     .then((res:any) => {
-      return this.http.delete(this.notesUrl + noteToDelete.id, {headers: this.userSvc.getAuthHeaders()})
-      .toPromise()
-      .then((res:any) => {
-        
-      }).catch((res:any) => {});
-    }).catch((res:any) => {})
-    
+      
+    }).catch((res:any) => {
+      console.log('Failed to delete note from folder');
+    });
   }
 
 }

@@ -51,26 +51,6 @@ export class FolderService {
   }
 
   deleteFolderById(folderId:String): Promise<void> {
-
-    this.getFolderById(folderId)
-    .then((folderToDelete:Folder) => {
-
-      for (var i=0; i<folderToDelete.noteIds.length; i++){
-
-        this.http.delete(this.notesUrl + folderToDelete.noteIds[i], {headers: this.userSvc.getAuthHeaders()})
-        .toPromise()
-        .then((res:any) => {
-          
-        }).catch((res:any) => {})
-
-
-      }
-
-
-    }).catch((res:any) => {
-
-    })
-
     return this.http.delete(this.foldersUrl + '/' + folderId, {headers: this.userSvc.getAuthHeaders()})
     .toPromise()
     .then((res:any) => {
