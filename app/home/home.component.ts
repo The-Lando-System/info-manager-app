@@ -83,15 +83,19 @@ export class HomeComponent implements OnInit {
       for (let folder of this.folders) {
         folder.notes = [];
 
+        var displayedNotes = 0;
+
         for (let noteId of folder.noteIds) {
 
-          this.noteSvc.getNoteById(noteId)
-          .then((note:any) => {
-            folder.notes.push(note);
-          }).catch((res:any) => {
+          if (displayedNotes < 3){
+            displayedNotes++;
+            this.noteSvc.getNoteById(noteId)
+            .then((note:any) => {
+              folder.notes.push(note);
+            }).catch((res:any) => {
 
-          });
-
+            });
+          }
         }
         
       }
@@ -107,7 +111,10 @@ export class HomeComponent implements OnInit {
 
     this.folderSvc.createFolder(this.newFolder)
     .then((folder:any) => {
-      this.folders.push(folder);
+      let newFolder: Folder = folder;
+      newFolder.notes = [];
+      newFolder.noteIds = [];
+      this.folders.push(newFolder);
     }).catch((error:any) => {
 
     });
