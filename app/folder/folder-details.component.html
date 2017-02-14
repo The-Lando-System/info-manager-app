@@ -7,7 +7,11 @@
       <button type="submit" class="btn btn-secondary" [disabled]="!newNoteForm.form.valid">Add</button>
     </form>
   </div>
-  <p class="card-text">
-    <span *ngFor="let note of folder.notes">{{note.title}} : {{note.details}} <a href="#" (click)="deleteNote(note)">X</a><br/></span>
-  </p>
+  <div class="card-text">
+    <div *ngFor="let note of folder.notes" class="note-row">
+      <a href="#" class="btn btn-secondary btn-no-border" (click)="deleteNote(note)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+      <span>{{note.title}} : {{note.details}}</span>
+      <br/>
+    </div>
+  </div>
 </div>

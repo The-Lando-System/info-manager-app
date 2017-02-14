@@ -65,6 +65,7 @@ export class FolderDetailsComponent implements OnInit {
     .then((note:Note) => {
       this.folder.noteIds.push(note.id);
       this.folder.notes.push(note);
+      this.newNote = new Note();
     }).catch((res:any) => {});
   }
 
