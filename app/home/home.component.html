@@ -1,17 +1,5 @@
 <div *ngIf="user" id="home">
 
-  <div class="row new-folder-row">
-    <div class="container">
-      <button class="btn btn-secondary" (click)="creatingFolder = !creatingFolder">
-        <span *ngIf="!creatingFolder">New Folder</span>
-        <span *ngIf="creatingFolder">Cancel</span>
-      </button>
-      <md-input *ngIf="creatingFolder" class="new-folder-element" placeholder="Folder Name" [(ngModel)]="newFolder.name" name="folderName" required></md-input>
-      <button *ngIf="creatingFolder" class="btn btn-secondary new-folder-element" (click)="createFolder()">Create</button>
-    </div>
-  </div>
-  
-
   <div class="col-sm-4" *ngFor="let folder of folders">
     <div class="card card-block note-card">
       <h4 class="card-title">{{folder.name}}</h4>
@@ -22,6 +10,22 @@
           <a [routerLink]="'/folder/' + folder.id" routerLinkActive="active" class="card-link">More</a>
           <a (click)="deleteFolder(folder.id)" href="#" class="card-link">Delete</a>
       </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="card card-block note-card">
+      <form #newFolderForm="ngForm">
+        <h4 class="card-title">
+          <md-input class="new-folder-element" placeholder="Add a new folder" [(ngModel)]="newFolder.name" name="folderName" required>
+          </md-input>
+        </h4>
+        <div class="card-text centered">
+          <button id="add-folder-button" [disabled]="!newFolderForm.form.valid" (click)="createFolder()">
+            <i *ngIf="newFolderForm.form.valid" class="fa fa-check fa-5x" aria-hidden="true"></i>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 

@@ -26,3 +26,20 @@
 .pull-right {
   float: right;
 }
+
+#add-folder-button {
+  border: none;
+  background: none;
+  margin-left: -150px;
+}
+
+#add-folder-button:hover {
+  border: none;
+  background: none;
+  margin-left: -150px;
+  cursor: pointer;
+}
+
+.centered {
+  text-align: center;
+}

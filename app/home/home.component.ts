@@ -115,6 +115,7 @@ export class HomeComponent implements OnInit {
       newFolder.notes = [];
       newFolder.noteIds = [];
       this.folders.push(newFolder);
+      this.newFolder = new Folder();
     }).catch((error:any) => {
 
     });
