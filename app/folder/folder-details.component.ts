@@ -92,7 +92,13 @@ export class FolderDetailsComponent implements OnInit {
   }
 
   beginEdit(note:Note){
+    event.preventDefault();
     this.editedNote = note;
+  }
+
+  stopEdit(){
+    event.preventDefault();
+    this.editedNote = new Note();
   }
 
   editNote(){

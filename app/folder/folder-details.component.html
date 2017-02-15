@@ -14,6 +14,7 @@
       <span *ngIf="note.id !== editedNote.id" (click)="beginEdit(note);">{{note.title}} : {{note.details}}</span>
       <md-input *ngIf="note.id === editedNote.id" [(ngModel)]="editedNote.title" name="new-note-title" required></md-input>
       <md-input *ngIf="note.id === editedNote.id" [(ngModel)]="editedNote.details" name="new-note-details" required></md-input>
+      <a *ngIf="note.id === editedNote.id" href="#" class="btn btn-secondary btn-no-border" (click)="stopEdit()"><i class="fa fa-ban" aria-hidden="true"></i></a>
       <br/>
     </div>
   </div>
