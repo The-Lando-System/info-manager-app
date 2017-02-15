@@ -61,4 +61,16 @@ export class NoteService {
     });
   }
 
+  editNote(noteToEdit:Note): Promise<Note> {
+
+    return this.http.put(this.notesUrl, noteToEdit, {headers: this.userSvc.getAuthHeaders()})
+    .toPromise()
+    .then((res:any) => {
+      return res.json();
+    }).catch((res:any) => {
+      console.log("Failed to edit note");
+    });
+
+  }
+
 }

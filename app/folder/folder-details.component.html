@@ -9,8 +9,11 @@
   </div>
   <div class="card-text">
     <div *ngFor="let note of folder.notes" class="note-row">
-      <a href="#" class="btn btn-secondary btn-no-border" (click)="deleteNote(note)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-      <span>{{note.title}} : {{note.details}}</span>
+      <a *ngIf="note.id !== editedNote.id" href="#" class="btn btn-secondary btn-no-border" (click)="deleteNote(note)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+      <a *ngIf="note.id === editedNote.id" href="#" class="btn btn-secondary btn-no-border" (click)="editNote()"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+      <span *ngIf="note.id !== editedNote.id" (click)="beginEdit(note);">{{note.title}} : {{note.details}}</span>
+      <md-input *ngIf="note.id === editedNote.id" [(ngModel)]="editedNote.title" name="new-note-title" required></md-input>
+      <md-input *ngIf="note.id === editedNote.id" [(ngModel)]="editedNote.details" name="new-note-details" required></md-input>
       <br/>
     </div>
   </div>

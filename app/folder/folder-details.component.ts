@@ -25,6 +25,7 @@ export class FolderDetailsComponent implements OnInit {
 
   folder:Folder;
   newNote:Note = new Note();
+  editedNote:Note = new Note();
 
   constructor(
     private folderSvc: FolderService,
@@ -88,6 +89,22 @@ export class FolderDetailsComponent implements OnInit {
 
 
     }).catch((res:any) => {})
+  }
+
+  beginEdit(note:Note){
+    this.editedNote = note;
+  }
+
+  editNote(){
+    event.preventDefault();
+    if (this.editedNote.details && this.editedNote.title) {
+      this.noteSvc.editNote(this.editedNote)
+      .then((res:Note) => {
+        this.editedNote = new Note();
+      }).catch((res:any) => {
+
+      });
+    }
   }
 
 }
