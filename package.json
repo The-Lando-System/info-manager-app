@@ -46,7 +46,8 @@
     "sarlacc-js-client": "1.0.4",
     "systemjs": "0.19.39",
     "zone.js": "^0.6.25",
-    "typings": "^1.4.0"
+    "typings": "^1.4.0",
+    "concurrently": "^3.0.0"
   },
   "devDependencies": {
     "concurrently": "^3.0.0",
