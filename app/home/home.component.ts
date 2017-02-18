@@ -31,6 +31,9 @@ export class HomeComponent implements OnInit {
   private creatingFolder = false;
 
   private homeLoading = false;
+  private newFolderLoading = false;
+  private folderDeleteLoading = false;
+  private idOfDeletingFolder:String = '';
 
   constructor(
     private folderSvc: FolderService,
@@ -108,7 +111,7 @@ export class HomeComponent implements OnInit {
 
   createFolder(): void {
     event.preventDefault();
-
+    this.newFolderLoading = true;
     this.folderSvc.createFolder(this.newFolder)
     .then((folder:any) => {
       let newFolder: Folder = folder;
@@ -116,15 +119,17 @@ export class HomeComponent implements OnInit {
       newFolder.noteIds = [];
       this.folders.push(newFolder);
       this.newFolder = new Folder();
+      this.newFolderLoading = false;
     }).catch((error:any) => {
-
+      this.newFolderLoading = false;
     });
 
   }
 
   deleteFolder(folderId:String): void {
     event.preventDefault();
-
+    this.idOfDeletingFolder = folderId;
+    this.folderDeleteLoading = true;
     this.folderSvc.deleteFolderById(folderId)
     .then((res:any) => {
       for(var i=0; i<this.folders.length; i++){
@@ -132,8 +137,9 @@ export class HomeComponent implements OnInit {
           this.folders.splice(i,1);
         }
       }
+      this.folderDeleteLoading = false;
     }).catch((error:any) => {
-
+      this.folderDeleteLoading = false;
     });
   }
 

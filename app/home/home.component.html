@@ -3,10 +3,11 @@
   <div class="col-sm-4" *ngFor="let folder of folders">
     <div class="card card-block note-card">
       <h4 class="card-title">{{folder.name}}</h4>
-      <p class="card-text">
+      <p *ngIf="folder.id !== idOfDeletingFolder" class="card-text">
         <span *ngFor="let note of folder.notes">{{note.title}} : {{note.details}}<br/></span>
       </p>
-      <div class="note-bottom">
+      <i *ngIf="folderDeleteLoading && folder.id === idOfDeletingFolder" class="fa fa-spinner fa-spin fa-3x modal-spinner" aria-hidden="true"></i>
+      <div *ngIf="folder.id !== idOfDeletingFolder" class="note-bottom">
           <a [routerLink]="'/folder/' + folder.id" routerLinkActive="active" class="card-link"><i class="fa fa-ellipsis-h fa-2x" aria-hidden="true"></i></a>
           <a (click)="deleteFolder(folder.id)" href="#" class="card-link pull-right"><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i></a>
       </div>
@@ -21,9 +22,10 @@
           </md-input>
         </h4>
         <div class="card-text centered">
-          <button id="add-folder-button" [disabled]="!newFolderForm.form.valid" (click)="createFolder()">
+          <button *ngIf="!newFolderLoading" id="add-folder-button" [disabled]="!newFolderForm.form.valid" (click)="createFolder()">
             <i *ngIf="newFolderForm.form.valid" class="fa fa-check fa-5x" aria-hidden="true" style="color: #7fd19e"></i>
           </button>
+          <i *ngIf="newFolderLoading" class="fa fa-spinner fa-spin fa-3x modal-spinner" aria-hidden="true"></i>
         </div>
       </form>
     </div>

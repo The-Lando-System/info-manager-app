@@ -10,3 +10,7 @@
 .btn-no-border {
   border: 0px;
 }
+
+#new-note-button {
+  margin-right: 10px;
+}
