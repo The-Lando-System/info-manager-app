@@ -6,13 +6,14 @@
   position:relative;
   margin-top: 30px;
   min-height: 200px;
-  max-height: 200px;
+  max-height: 400px;
 }
 
 .note-bottom {
   position: absolute;
   bottom: 0;
   margin-bottom: 10px;
+  width: 90%;
 }
 
 .new-folder-row {
