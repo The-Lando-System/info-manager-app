@@ -1,0 +1,1 @@
+npm tsc && lite-server
