@@ -26,6 +26,7 @@ export class FolderDetailsComponent implements OnInit {
   folder:Folder;
   newNote:Note = new Note();
   editedNote:Note = new Note();
+  previousNote:Note = new Note();
 
   private noteLoading = false;
 
@@ -121,6 +122,14 @@ export class FolderDetailsComponent implements OnInit {
     if (this.editedNote.details && this.editedNote.title) {
       this.noteSvc.editNote(this.editedNote)
       .then((res:Note) => {
+
+        for(var i=0; i<this.folder.notes.length; i++){
+          if (this.folder.notes[i].id === this.editedNote.id){
+            this.folder.notes[i].title = this.editedNote.title;
+            this.folder.notes[i].details = this.editedNote.details;
+          }
+        }
+
         this.editedNote = new Note();
         this.noteLoading = false;
       }).catch((res:any) => {

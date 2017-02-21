@@ -14,3 +14,12 @@
 #new-note-button {
   margin-right: 10px;
 }
+
+.title-input {
+  max-width: 400px;
+}
+
+.details-input {
+  margin-top:10px;
+  margin-bottom:10px;
+}

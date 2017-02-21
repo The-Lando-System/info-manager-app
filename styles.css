@@ -1,10 +1,9 @@
 body {
-  background-color: #fafafa;
+  background-color: #fafafa!important;
 }
 
 .main {
-  margin-left: 20px;
-  margin-top: 70px;
+  margin-bottom: 30px;
 }
 
 .modal-spinner {
