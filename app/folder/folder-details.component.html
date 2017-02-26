@@ -1,39 +1,41 @@
-<div class="col-sm-2"></div>
-<div class="col-sm-8">
-  <div *ngIf="folder" class="card card-block note-card">
-    <h4 class="card-title">{{folder.name}}</h4>
-    <div>
-      <form (ngSubmit)="createNewNote()" #newNoteForm="ngForm">
-        
-        <input class="form-control title-input" placeholder="Title" [(ngModel)]="newNote.title" name="new-note-title" maxlength="20" required />
-        <div class="input-group details-input">
-          <input class="form-control" placeholder="Details" [(ngModel)]="newNote.details" name="new-note-details" maxlength="60" required />
-          <span class="input-group-btn">
-            <button id="new-note-button" type="submit" class="btn btn-secondary" [disabled]="!newNoteForm.form.valid"><i class="fa fa-check" aria-hidden="true" style="color:#7fd19e"></i></button>
-          </span>
+<div class="row">
+  <div class="col-2"></div>
+  <div class="col-8">
+    <div *ngIf="folder" class="card card-block note-card">
+      <h4 class="card-title">{{folder.name}}</h4>
+      <div>
+        <form (ngSubmit)="createNewNote()" #newNoteForm="ngForm">
+          
+          <input class="form-control title-input" placeholder="Title" [(ngModel)]="newNote.title" name="new-note-title" maxlength="20" required />
+          <div class="input-group details-input">
+            <input class="form-control" placeholder="Details" [(ngModel)]="newNote.details" name="new-note-details" maxlength="60" required />
+            <span class="input-group-btn">
+              <button id="new-note-button" type="submit" class="btn btn-secondary" [disabled]="!newNoteForm.form.valid"><i class="fa fa-check" aria-hidden="true" style="color:#7fd19e"></i></button>
+            </span>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="!noteLoading" class="card-text">
+        <div *ngFor="let note of folder.notes" class="note-row">
+          <a *ngIf="note.id !== editedNote.id" href="#" class="btn btn-secondary btn-no-border" (click)="deleteNote(note)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+          <span *ngIf="note.id !== editedNote.id" (click)="beginEdit(note);">{{note.title}} : {{note.details}}</span>
+          <div *ngIf="note.id === editedNote.id" class="input-group details-input">
+            <input class="form-control title-input" [(ngModel)]="editedNote.title" name="new-note-title" maxlength="20" required />
+            <span class="input-group-btn">
+              <button  class="btn btn-secondary" (click)="editNote()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+            </span>
+            <span class="input-group-btn">
+              <button *ngIf="note.id === editedNote.id" class="btn btn-secondary" (click)="stopEdit()"><i class="fa fa-ban" aria-hidden="true"></i></button>
+            </span>
+          </div>
+          <input class="form-control details-input" *ngIf="note.id === editedNote.id" [(ngModel)]="editedNote.details" name="new-note-details" maxlength="60" required />
+          <br/>
         </div>
-      </form>
-    </div>
-    <div *ngIf="!noteLoading" class="card-text">
-      <div *ngFor="let note of folder.notes" class="note-row">
-        <a *ngIf="note.id !== editedNote.id" href="#" class="btn btn-secondary btn-no-border" (click)="deleteNote(note)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-        <span *ngIf="note.id !== editedNote.id" (click)="beginEdit(note);">{{note.title}} : {{note.details}}</span>
-        <div *ngIf="note.id === editedNote.id" class="input-group details-input">
-          <input class="form-control title-input" [(ngModel)]="editedNote.title" name="new-note-title" maxlength="20" required />
-          <span class="input-group-btn">
-            <button  class="btn btn-secondary" (click)="editNote()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-          </span>
-          <span class="input-group-btn">
-            <button *ngIf="note.id === editedNote.id" class="btn btn-secondary" (click)="stopEdit()"><i class="fa fa-ban" aria-hidden="true"></i></button>
-          </span>
-        </div>
-        <input class="form-control details-input" *ngIf="note.id === editedNote.id" [(ngModel)]="editedNote.details" name="new-note-details" maxlength="60" required />
-        <br/>
+      </div>
+      <div *ngIf="noteLoading">
+        <i class="fa fa-spinner fa-spin fa-3x modal-spinner" aria-hidden="true"></i>
       </div>
     </div>
-    <div *ngIf="noteLoading">
-      <i class="fa fa-spinner fa-spin fa-3x modal-spinner" aria-hidden="true"></i>
-    </div>
   </div>
+  <div class="col-2"></div>
 </div>
-<div class="col-sm-2"></div>

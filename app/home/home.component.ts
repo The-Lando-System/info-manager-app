@@ -35,6 +35,11 @@ export class HomeComponent implements OnInit {
   private folderDeleteLoading = false;
   private idOfDeletingFolder:String = '';
 
+  private folderEditLoading = false;
+  private editedFolder:Folder = new Folder();
+  private editedFoldersOriginalName = "";
+  private idOfEditingFolder:String = '';
+
   constructor(
     private folderSvc: FolderService,
     private noteSvc: NoteService,
@@ -140,6 +145,37 @@ export class HomeComponent implements OnInit {
       this.folderDeleteLoading = false;
     }).catch((error:any) => {
       this.folderDeleteLoading = false;
+    });
+  }
+
+  beginEdit(folderToEdit:Folder): void {
+    event.preventDefault();
+    this.editedFolder = Object.assign({},folderToEdit);
+  }
+
+  stopEdit(): void {
+    event.preventDefault();
+    this.editedFolder = new Folder();
+  }
+
+  editFolderName(): void {
+    event.preventDefault();
+    this.folderEditLoading = true;
+    this.idOfEditingFolder = this.editedFolder.id;
+    this.folderSvc.editFolder(this.editedFolder)
+    .then((folder:Folder) => {
+      for(var i=0; i<this.folders.length; i++){
+        if (this.folders[i].id === folder.id){
+          this.folders[i].name = folder.name;
+        }
+      }
+      this.stopEdit();
+      this.folderEditLoading = false;
+      this.idOfEditingFolder = "";
+    }).catch((error:any) => {
+      this.stopEdit();
+      this.folderEditLoading = false;
+      this.idOfEditingFolder = "";
     });
   }
 

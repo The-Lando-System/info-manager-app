@@ -3,14 +3,28 @@
 
     <div class="col-4" *ngFor="let folder of folders">
       <div class="card card-block note-card">
-        <h4 class="card-title">{{folder.name}}</h4>
-        <p *ngIf="folder.id !== idOfDeletingFolder" class="card-text">
+        <div *ngIf="folder.id !== editedFolder.id">
+          <h4 class="card-title" (click)="beginEdit(folder)">{{folder.name}}</h4>
+        </div>
+        <div *ngIf="folder.id === editedFolder.id" class="input-group details-input">
+          <input class="form-control" placeholder="Edited Folder Name" [(ngModel)]="editedFolder.name" name="editedFolderName" [disabled]="folderEditLoading" required />
+          <span class="input-group-btn">
+            <button  class="btn btn-secondary" (click)="editFolderName()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+          </span>
+          <span class="input-group-btn">
+            <button *ngIf="folder.id === editedFolder.id" class="btn btn-secondary" (click)="stopEdit()"><i class="fa fa-ban" aria-hidden="true"></i></button>
+          </span>
+        </div>
+        <p *ngIf="folder.id !== idOfDeletingFolder && folder.id !== idOfEditingFolder" class="card-text">
           <span *ngFor="let note of folder.notes">{{note.title}} : {{note.details}}<br/></span>
         </p>
         <div class="card-text centered" *ngIf="folderDeleteLoading && folder.id === idOfDeletingFolder">
           <i class="fa fa-spinner fa-spin fa-3x" aria-hidden="true"></i>
         </div>
-        <div *ngIf="folder.id !== idOfDeletingFolder" class="note-bottom">
+        <div class="card-text centered" *ngIf="folderEditLoading && folder.id === idOfEditingFolder">
+          <i class="fa fa-spinner fa-spin fa-3x" aria-hidden="true"></i>
+        </div>
+        <div *ngIf="folder.id !== idOfDeletingFolder && folder.id !== idOfEditingFolder" class="note-bottom">
             <a [routerLink]="'/folder/' + folder.id" routerLinkActive="active" class="card-link"><i class="fa fa-ellipsis-h fa-2x" aria-hidden="true"></i></a>
             <a (click)="deleteFolder(folder.id)" href="#" class="card-link pull-right"><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i></a>
         </div>

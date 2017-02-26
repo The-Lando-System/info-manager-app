@@ -60,4 +60,14 @@ export class FolderService {
     });
   }
 
+  editFolder(folderToEdit:Folder): Promise<Folder> {
+    return this.http.put(this.foldersUrl, folderToEdit, {headers: this.userSvc.getAuthHeaders()})
+    .toPromise()
+    .then((res:any) => {
+      return res.json();
+    }).catch((res:any) => {
+      console.log('Encounterd error editing folder with ID ' + folderToEdit.id);
+    })
+  }
+
 }
