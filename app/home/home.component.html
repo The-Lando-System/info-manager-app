@@ -1,4 +1,4 @@
-<div class="container">
+
   <div *ngIf="user" class="row">
 
     <div class="col-4" *ngFor="let folder of folders">
@@ -7,7 +7,9 @@
         <p *ngIf="folder.id !== idOfDeletingFolder" class="card-text">
           <span *ngFor="let note of folder.notes">{{note.title}} : {{note.details}}<br/></span>
         </p>
-        <i *ngIf="folderDeleteLoading && folder.id === idOfDeletingFolder" class="fa fa-spinner fa-spin fa-3x" aria-hidden="true"></i>
+        <div class="card-text centered" *ngIf="folderDeleteLoading && folder.id === idOfDeletingFolder">
+          <i class="fa fa-spinner fa-spin fa-3x" aria-hidden="true"></i>
+        </div>
         <div *ngIf="folder.id !== idOfDeletingFolder" class="note-bottom">
             <a [routerLink]="'/folder/' + folder.id" routerLinkActive="active" class="card-link"><i class="fa fa-ellipsis-h fa-2x" aria-hidden="true"></i></a>
             <a (click)="deleteFolder(folder.id)" href="#" class="card-link pull-right"><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i></a>
@@ -33,7 +35,6 @@
       </div>
     </div>
   </div>
-</div>
 
 <div *ngIf="homeLoading" class="center-page">
   <div id="loading-spinner">

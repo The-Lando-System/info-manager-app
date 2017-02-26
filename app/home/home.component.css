@@ -2,6 +2,10 @@
   margin-right: 30px;
 }
 
+.row {
+  margin:30px;
+}
+
 .note-card {
   position:relative;
   margin-top: 30px;
@@ -31,13 +35,11 @@
 #add-folder-button {
   border: none;
   background: none;
-  margin-left: -150px;
 }
 
 #add-folder-button:hover {
   border: none;
   background: none;
-  margin-left: -150px;
   cursor: pointer;
 }
 

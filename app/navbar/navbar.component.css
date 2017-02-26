@@ -1,3 +1,7 @@
-.navbar-brand {
+.inverse-color {
+    color: white;
+}
+
+.navbar-brand:visited {
     color: white;
 }

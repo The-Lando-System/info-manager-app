@@ -1,12 +1,22 @@
-<h4 class="modal-title">Login</h4>
-<form (ngSubmit)="login()" #loginForm="ngForm">
-  <input class="form-control" placeholder="username" [(ngModel)]="creds.username" name="username" required />
-  <input class="form-control" placeholder="password" type="password" [(ngModel)]="creds.password" name="password" required />
-  <i *ngIf="loginLoading" class="fa fa-spinner fa-spin fa-3x modal-spinner" aria-hidden="true"></i>
-  <div *ngIf="errorMessage" class="alert alert-danger">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <strong>Error!</strong> {{errorMessage}}
+<div class="row">
+  <div class="col-4"></div>
+  <div class="col-4 card card-block">
+    <h4>Login</h4>
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+      <input class="form-control spacer" placeholder="username" [(ngModel)]="creds.username" name="username" [disabled]="loginLoading" required />
+      <input class="form-control spacer" placeholder="password" type="password" [(ngModel)]="creds.password" name="password" [disabled]="loginLoading" required />
+      
+      <div *ngIf="!loginLoading">
+        <button type="submit" class="btn btn-primary spacer" [disabled]="!loginForm.form.valid || loginLoading">Login</button>
+        <div *ngIf="errorMessage" class="alert alert-danger spacer">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>Error!</strong> {{errorMessage}}
+        </div>
+      </div>
+      <div *ngIf="loginLoading" style="text-align: center">
+        <i class="fa fa-spinner fa-spin fa-3x" aria-hidden="true"></i>
+      </div>
+    </form>
   </div>
-  <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
-  <button type="submit" class="btn btn-secondary" [disabled]="!loginForm.form.valid || loginLoading">Login</button>
-</form>
+  <div class="col-4"></div>
+</div>
