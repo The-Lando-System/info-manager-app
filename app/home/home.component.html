@@ -1,7 +1,7 @@
 
   <div *ngIf="user" class="row">
 
-    <div class="col-4" *ngFor="let folder of folders">
+    <div class="col col-sm-4" *ngFor="let folder of folders">
       <div class="card card-block note-card">
         <div *ngIf="folder.id !== editedFolder.id">
           <h4 class="card-title" (click)="beginEdit(folder)">{{folder.name}}</h4>
@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <div class="col-4" *ngIf="!homeLoading">
+    <div class="col col-sm-4" *ngIf="!homeLoading">
       <div class="card card-block note-card">
         <form #newFolderForm="ngForm">
           <h4 class="card-title">
@@ -39,7 +39,8 @@
           </h4>
           <div class="card-text centered">
             <button *ngIf="!newFolderLoading" id="add-folder-button" [disabled]="!newFolderForm.form.valid" (click)="createFolder()">
-              <i *ngIf="newFolderForm.form.valid" class="fa fa-check fa-5x" aria-hidden="true" style="color: #7fd19e"></i>
+              <i *ngIf="!newFolderForm.form.valid" class="fa fa-check fa-5x" aria-hidden="true" style="color: #dbffea"></i>
+              <i *ngIf="newFolderForm.form.valid" class="fa fa-check fa-5x" aria-hidden="true" style="color: #3aff8c"></i>
             </button>
             <div *ngIf="newFolderLoading">
               <i class="fa fa-spinner fa-spin fa-3x" aria-hidden="true"></i>

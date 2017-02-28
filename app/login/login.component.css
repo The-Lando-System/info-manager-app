@@ -19,3 +19,8 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+#login-card {
+  max-width: 400px;
+  margin: 0 auto;
+}

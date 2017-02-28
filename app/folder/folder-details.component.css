@@ -1,6 +1,10 @@
+.row {
+  margin: 20px;
+}
+
 .note-card {
-  margin-right: 30px;
-  margin-top: 30px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .note-row {
