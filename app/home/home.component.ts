@@ -48,13 +48,14 @@ export class HomeComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
-
+    this.homeLoading = true;
     this.userSvc.checkIfUserIsLoggedIn()
     .then((res:any) => {
-      this.getFolders();
       this.user = this.userSvc.getUser();
+      this.getFolders();
     }).catch((res:any) => {
       console.log('Not getting folders... User is not logged in');
+      this.homeLoading = false;
     });
 
     this.listenForLogin();
@@ -64,8 +65,13 @@ export class HomeComponent implements OnInit {
   listenForLogin(): void {
    this.broadcaster.on<string>(this.userSvc.LOGIN_BCAST)
     .subscribe(message => {
-      this.getFolders();
-      this.user = this.userSvc.getUser();
+      this.userSvc.checkIfUserIsLoggedIn()
+      .then((res:any) => {
+        this.getFolders();
+        this.user = this.userSvc.getUser();
+      }).catch((res:any) => {
+        console.log('Not getting folders... User is not logged in');
+      });
     });
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Broadcaster } from 'sarlacc-js-client/dist/broadcaster';
 import { UserService } from 'sarlacc-js-client/dist/user.service';
 import { User } from 'sarlacc-js-client/dist/user';
 
@@ -12,19 +12,20 @@ import { User } from 'sarlacc-js-client/dist/user';
 export class NavbarComponent implements OnInit {
 
   user: User;
-
-
   welcome = 'Info Manager';
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private broadcaster: Broadcaster
   ){}
 
   ngOnInit(): void {
     this.userService.checkIfUserIsLoggedIn()
     .then((res:any) => {
       this.user = this.userService.getUser();
-    }).catch((error:string) => {})
+    }).catch((error:string) => {});
+
+    this.listenForLogin();
   }
 
   logout(): void {
@@ -33,5 +34,17 @@ export class NavbarComponent implements OnInit {
       this.userService.logout();
       this.user = null;
     }
+  }
+
+  listenForLogin(): void {
+   this.broadcaster.on<string>(this.userService.LOGIN_BCAST)
+    .subscribe(message => {
+      
+      this.userService.checkIfUserIsLoggedIn()
+      .then((res:any) => {
+        this.user = this.userService.getUser();
+      }).catch((error:string) => {});
+
+    });
   }
 }
