@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit {
     .then((user:any) => {
       this.user = user;
       this.loginLoading = false;
-      this.modal.close();
       this.creds = {};
     }).catch((error:any) => {
       console.log(error);
