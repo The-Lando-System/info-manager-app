@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { UserService } from 'sarlacc-js-client/dist/user.service';
-import { User } from 'sarlacc-js-client/dist/user';
-import { Broadcaster } from 'sarlacc-js-client/dist/broadcaster';
+import { UserService } from '../sarlacc-client/user.service';
+import { User } from '../sarlacc-client/user';
+import { Broadcaster } from '../sarlacc-client/broadcaster';
 
 import { FolderService } from '../folder/folder.service';
 import { Folder } from '../folder/folder';
@@ -35,6 +35,8 @@ export class FolderDetailsComponent implements OnInit {
     private noteSvc: NoteService,
     private userSvc: UserService,
     private route: ActivatedRoute,
+    private broadcaster: Broadcaster,
+    private router: Router
   ){}
 
   ngOnInit(): void {
@@ -43,6 +45,14 @@ export class FolderDetailsComponent implements OnInit {
       if (id){
         this.getFolderAndNotes(id);
       }
+    });
+    this.listenForLogout();
+  }
+
+  listenForLogout(): void {
+    this.broadcaster.on<string>(this.userSvc.LOGOUT_BCAST)
+    .subscribe(message => {
+      this.router.navigate(['/home']);
     });
   }
 

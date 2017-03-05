@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
-import { UserService } from 'sarlacc-js-client/dist/user.service';
-import { User } from 'sarlacc-js-client/dist/user';
+import { Broadcaster } from '../sarlacc-client/broadcaster';
+import { UserService } from '../sarlacc-client/user.service';
+import { User } from '../sarlacc-client/user';
 
 @Component({
   moduleId: module.id,
@@ -17,20 +17,18 @@ export class LoginComponent implements OnInit {
 
   private errorMessage = '';
 
-  @ViewChild('loginModal')
-  modal: ModalComponent;
-
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private broadcaster: Broadcaster
   ){}
 
   ngOnInit(): void {
 
     this.errorMessage = '';
 
-    this.userService.checkIfUserIsLoggedIn()
-    .then((res:any) => {
-      this.user = this.userService.getUser();
+    this.userService.returnUser()
+    .then((user:User) => {
+      this.user = user;
     }).catch((error:string) => {
       
     })

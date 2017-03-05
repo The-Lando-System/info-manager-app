@@ -5,14 +5,11 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import 'hammerjs/hammer.js';
-//import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Logger } from "angular2-logger/core";
 
-import { Broadcaster } from 'sarlacc-js-client/dist/broadcaster';
-import { UserService } from 'sarlacc-js-client/dist/user.service';
-
+import { Broadcaster } from './sarlacc-client/broadcaster';
+import { UserService } from './sarlacc-client/user.service';
 import { AppComponent }  from './app.component';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -24,8 +21,6 @@ import { FolderDetailsComponent } from './folder/folder-details.component';
   	BrowserModule,
   	FormsModule,
   	HttpModule,
-    Ng2Bs3ModalModule,
-    //NgbModule.forRoot(),
     MaterialModule.forRoot(),
     RouterModule.forRoot([
       {
