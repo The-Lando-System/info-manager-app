@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Broadcaster } from 'sarlacc-js-client/dist/broadcaster';
-import { UserService } from 'sarlacc-js-client/dist/user.service';
-import { User } from 'sarlacc-js-client/dist/user';
+import { Broadcaster } from '../sarlacc-client/broadcaster';
+import { UserService } from '../sarlacc-client/user.service';
+import { User } from '../sarlacc-client/user';
 
 @Component({
   moduleId: module.id,
@@ -20,9 +20,9 @@ export class NavbarComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
-    this.userService.checkIfUserIsLoggedIn()
-    .then((res:any) => {
-      this.user = this.userService.getUser();
+    this.userService.returnUser()
+    .then((user:User) => {
+      this.user = user;
     }).catch((error:string) => {});
 
     this.listenForLogin();
@@ -39,12 +39,10 @@ export class NavbarComponent implements OnInit {
   listenForLogin(): void {
    this.broadcaster.on<string>(this.userService.LOGIN_BCAST)
     .subscribe(message => {
-      
-      this.userService.checkIfUserIsLoggedIn()
-      .then((res:any) => {
-        this.user = this.userService.getUser();
+      this.userService.returnUser()
+      .then((user:User) => {
+        this.user = user;
       }).catch((error:string) => {});
-
     });
   }
 }

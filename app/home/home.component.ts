@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { UserService } from 'sarlacc-js-client/dist/user.service';
-import { User } from 'sarlacc-js-client/dist/user';
-import { Broadcaster } from 'sarlacc-js-client/dist/broadcaster';
+import { UserService } from '../sarlacc-client/user.service';
+import { User } from '../sarlacc-client/user';
+import { Broadcaster } from '../sarlacc-client/broadcaster';
 
 import { FolderService } from '../folder/folder.service';
 import { Folder } from '../folder/folder';
@@ -49,9 +49,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.homeLoading = true;
-    this.userSvc.checkIfUserIsLoggedIn()
-    .then((res:any) => {
-      this.user = this.userSvc.getUser();
+    this.userSvc.returnUser()
+    .then((user:User) => {
+      this.user = user;
       this.getFolders();
     }).catch((res:any) => {
       console.log('Not getting folders... User is not logged in');
@@ -65,12 +65,13 @@ export class HomeComponent implements OnInit {
   listenForLogin(): void {
    this.broadcaster.on<string>(this.userSvc.LOGIN_BCAST)
     .subscribe(message => {
-      this.userSvc.checkIfUserIsLoggedIn()
-      .then((res:any) => {
+      this.userSvc.returnUser()
+      .then((user:User) => {
+        this.user = user;
         this.getFolders();
-        this.user = this.userSvc.getUser();
       }).catch((res:any) => {
         console.log('Not getting folders... User is not logged in');
+        this.homeLoading = false;
       });
     });
   }
