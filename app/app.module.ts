@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import 'hammerjs/hammer.js';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Logger } from "angular2-logger/core";
+import { Logger } from 'angular2-logger/core';
 
 import { Broadcaster } from './sarlacc-client/broadcaster';
 import { UserService } from './sarlacc-client/user.service';
@@ -17,10 +17,10 @@ import { LoginComponent } from './login/login.component';
 import { FolderDetailsComponent } from './folder/folder-details.component';
 
 @NgModule({
-  imports: [ 
-  	BrowserModule,
-  	FormsModule,
-  	HttpModule,
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
     MaterialModule.forRoot(),
     RouterModule.forRoot([
       {
@@ -38,9 +38,9 @@ import { FolderDetailsComponent } from './folder/folder-details.component';
       }
     ])
   ],
-  declarations: [ 
-  	AppComponent,
-  	HomeComponent,
+  declarations: [
+    AppComponent,
+    HomeComponent,
     NavbarComponent,
     LoginComponent,
     FolderDetailsComponent

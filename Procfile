@@ -1,1 +1,1 @@
-npm tsc && lite-server
+npm start
