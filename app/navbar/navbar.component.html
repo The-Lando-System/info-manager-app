@@ -8,7 +8,14 @@
     <ul class="navbar-nav mr-auto"></ul>
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="#" (click)="logout()"><span class="inverse-color">Logout</span></a>
+        <a class="nav-link" [attr.href]="sarlaccUrl">
+          <span class="inverse-color">Account <i class="fa fa-external-link-square" aria-hidden="true"></i></span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" (click)="logout()">
+          <span class="inverse-color">Logout</span>
+        </a>
       </li>
     </ul>
     

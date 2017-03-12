@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit {
 
   user: User;
   welcome = 'Info Manager';
+  sarlaccUrl = 'http://sarlacc.mattvoget.com/';
 
   constructor(
     private userService: UserService,
@@ -23,6 +24,7 @@ export class NavbarComponent implements OnInit {
     this.userService.returnUser()
     .then((user:User) => {
       this.user = user;
+      this.sarlaccUrl += this.userService.getToken().access_token;
     }).catch((error:string) => {});
 
     this.listenForLogin();
