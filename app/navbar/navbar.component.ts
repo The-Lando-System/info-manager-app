@@ -13,7 +13,8 @@ export class NavbarComponent implements OnInit {
 
   user: User;
   welcome = 'Info Manager';
-  sarlaccUrl = 'http://sarlacc.mattvoget.com/token/';
+  baseSarlaccUrl = 'http://sarlacc.mattvoget.com/token/';
+  sarlaccUrl = '';
 
   constructor(
     private userService: UserService,
@@ -24,7 +25,7 @@ export class NavbarComponent implements OnInit {
     this.userService.returnUser()
     .then((user:User) => {
       this.user = user;
-      this.sarlaccUrl += this.userService.getToken().access_token;
+      this.sarlaccUrl = this.baseSarlaccUrl + this.userService.getToken().access_token;
     }).catch((error:string) => {});
 
     this.listenForLogin();
@@ -44,6 +45,7 @@ export class NavbarComponent implements OnInit {
       this.userService.returnUser()
       .then((user:User) => {
         this.user = user;
+        this.sarlaccUrl = this.baseSarlaccUrl + this.userService.getToken().access_token;
       }).catch((error:string) => {});
     });
   }
