@@ -1,5 +1,6 @@
 body {
-  background-color: #fafafa!important;
+  /*background-color: #fafafa!important;*/
+    background-image: url("resources/images/security-wallpaper-faded.jpg");
 }
 
 .main {
@@ -50,4 +51,8 @@ body {
 #loading-spinner {
   position: relative;
   top: -60px;
+}
+
+.card {
+  border: 1px solid rgba(0,0,0,.325)!important;
 }
