@@ -1,26 +1,26 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { UserService } from '../sarlacc-client/user.service';
-import { User } from '../sarlacc-client/user';
-import { Broadcaster } from '../sarlacc-client/broadcaster';
+import { UserService } from '../../sarlacc-client/user.service';
+import { User } from '../../sarlacc-client/user';
+import { Broadcaster } from '../../sarlacc-client/broadcaster';
 
-import { FolderService } from '../folder/folder.service';
-import { Folder } from '../folder/folder';
+import { FolderService } from '../../models/folder/folder.service';
+import { Folder } from '../../models/folder/folder';
 
-import { NoteService } from '../note/note.service';
-import { Note } from '../note/note';
+import { NoteService } from '../../models/note/note.service';
+import { Note } from '../../models/note/note';
 
 @Component({
   moduleId: module.id,
-  selector: 'home',
-  templateUrl: 'home.component.html',
-  styleUrls: [ 'home.component.css' ],
+  selector: 'folders',
+  templateUrl: 'folders.component.html',
+  styleUrls: [ 'folders.component.css' ],
   providers: [
     FolderService,
     NoteService
   ]
 })
-export class HomeComponent implements OnInit {
+export class FoldersComponent implements OnInit {
 
   @Input()
   folders: Folder[];

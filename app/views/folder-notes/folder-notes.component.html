@@ -1,17 +1,8 @@
 <div class="row">
   <div *ngIf="folder" class="card card-block note-card">
     <h4 class="card-title">{{folder.name}}</h4>
-    <div>
-      <form (ngSubmit)="createNewNote()" #newNoteForm="ngForm">
-        
-        <input class="form-control title-input" placeholder="Title" [(ngModel)]="newNote.title" name="new-note-title" maxlength="20" required />
-        <div class="input-group details-input">
-          <input class="form-control" placeholder="Details" [(ngModel)]="newNote.details" name="new-note-details" maxlength="60" required />
-          <span class="input-group-btn">
-            <button id="new-note-button" type="submit" class="btn btn-secondary" [disabled]="!newNoteForm.form.valid"><i class="fa fa-check" aria-hidden="true" style="color:#7fd19e"></i></button>
-          </span>
-        </div>
-      </form>
+    <div id="new-note-button">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">New Note</button>
     </div>
     <div *ngIf="!noteLoading" class="card-text">
       <div *ngFor="let note of folder.notes" class="note-row">
@@ -33,5 +24,29 @@
     <div *ngIf="noteLoading">
       <i class="fa fa-spinner fa-spin fa-3x modal-spinner" aria-hidden="true"></i>
     </div>
+  </div>
+</div>
+
+
+<!-- New Note Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form (ngSubmit)="createNewNote()" #newNoteForm="ngForm">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">New Note</h4>
+        </div>
+        <div class="modal-body">
+          <input class="form-control new-note" placeholder="Title" [(ngModel)]="newNote.title" name="new-note-title" maxlength="20" required />
+          <input class="form-control new-note" placeholder="Details" [(ngModel)]="newNote.details" name="new-note-details" maxlength="100" required />  
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="!newNoteForm.form.valid">Add</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+
   </div>
 </div>

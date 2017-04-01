@@ -11,10 +11,10 @@ import { Logger } from 'angular2-logger/core';
 import { Broadcaster } from './sarlacc-client/broadcaster';
 import { UserService } from './sarlacc-client/user.service';
 import { AppComponent }  from './app.component';
-import { HomeComponent } from './home/home.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { LoginComponent } from './login/login.component';
-import { FolderDetailsComponent } from './folder/folder-details.component';
+import { FoldersComponent } from './views/folders/folders.component';
+import { NavbarComponent } from './views/navbar/navbar.component';
+import { LoginComponent } from './views/login/login.component';
+import { FolderNotesComponent } from './views/folder-notes/folder-notes.component';
 
 @NgModule({
   imports: [
@@ -25,25 +25,25 @@ import { FolderDetailsComponent } from './folder/folder-details.component';
     RouterModule.forRoot([
       {
         path: '',
-        redirectTo: '/home',
+        redirectTo: '/folders',
         pathMatch: 'full'
       },
       {
-        path: 'home',
-        component: HomeComponent
+        path: 'folders',
+        component: FoldersComponent
       },
       {
         path: 'folder/:id',
-        component: FolderDetailsComponent
+        component: FolderNotesComponent
       }
     ])
   ],
   declarations: [
     AppComponent,
-    HomeComponent,
+    FoldersComponent,
     NavbarComponent,
     LoginComponent,
-    FolderDetailsComponent
+    FolderNotesComponent
   ],
   providers: [
     Logger,

@@ -56,3 +56,7 @@ body {
 .card {
   border: 1px solid rgba(0,0,0,.325)!important;
 }
+
+button {
+  cursor: pointer;
+}

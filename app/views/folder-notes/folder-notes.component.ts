@@ -1,27 +1,27 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { UserService } from '../sarlacc-client/user.service';
-import { User } from '../sarlacc-client/user';
-import { Broadcaster } from '../sarlacc-client/broadcaster';
+import { UserService } from '../../sarlacc-client/user.service';
+import { User } from '../../sarlacc-client/user';
+import { Broadcaster } from '../../sarlacc-client/broadcaster';
 
-import { FolderService } from '../folder/folder.service';
-import { Folder } from '../folder/folder';
+import { FolderService } from '../../models/folder/folder.service';
+import { Folder } from '../../models/folder/folder';
 
-import { NoteService } from '../note/note.service';
-import { Note } from '../note/note';
+import { NoteService } from '../../models/note/note.service';
+import { Note } from '../../models/note/note';
 
 @Component({
   moduleId: module.id,
-  selector: 'folder-details',
-  templateUrl: 'folder-details.component.html',
-  styleUrls: [ 'folder-details.component.css' ],
+  selector: 'folder-notes',
+  templateUrl: 'folder-notes.component.html',
+  styleUrls: [ 'folder-notes.component.css' ],
   providers: [
     FolderService,
     NoteService
   ]
 })
-export class FolderDetailsComponent implements OnInit {
+export class FolderNotesComponent implements OnInit {
 
   folder:Folder;
   newNote:Note = new Note();
@@ -52,7 +52,7 @@ export class FolderDetailsComponent implements OnInit {
   listenForLogout(): void {
     this.broadcaster.on<string>(this.userSvc.LOGOUT_BCAST)
     .subscribe(message => {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/folders']);
     });
   }
 
