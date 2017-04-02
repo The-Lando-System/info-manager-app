@@ -14,8 +14,8 @@ export class UserService {
 
   private TAG = 'UserService - ';
 
-  private tokenUrl = 'https://sarlacc.mattvoget.com/oauth/token';
-  private userUrl = 'https://sarlacc.mattvoget.com/user-details';
+  private tokenUrl = 'http://sarlacc.mattvoget.com/oauth/token';
+  private userUrl = 'http://sarlacc.mattvoget.com/user-details';
 
   private token: Token;
   private user: User;
