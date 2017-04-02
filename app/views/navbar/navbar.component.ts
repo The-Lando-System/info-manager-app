@@ -13,7 +13,7 @@ export class NavbarComponent implements OnInit {
 
   user: User;
   welcome = 'Info Manager';
-  baseSarlaccUrl = 'http://sarlacc.mattvoget.com/token/';
+  baseSarlaccUrl = 'http://sarlacc.voget.io/token/';
   sarlaccUrl = '';
 
   constructor(
