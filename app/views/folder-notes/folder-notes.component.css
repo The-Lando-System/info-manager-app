@@ -36,3 +36,19 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.modal-header {
+  background-color: transparent!important;
+}
+
+.modal-title {
+  color: black;
+}
+
+.btn-outline-primary {
+  border-color: transparent;
+}
+
+.btn-outline-primary:hover {
+  background-color: #99caff!important;
+}

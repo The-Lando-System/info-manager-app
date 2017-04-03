@@ -1,9 +1,10 @@
 <div class="row">
   <div *ngIf="folder" class="card card-block note-card">
-    <h4 class="card-title">{{folder.name}}</h4>
-    <div id="new-note-button">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">New Note</button>
-    </div>
+    <h4 class="card-title">
+      <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">
+        <span style="color:black"><i class="fa fa-sticky-note" aria-hidden="true"></i></span>
+      </button> {{folder.name}}
+    </h4>
     <div *ngIf="!noteLoading" class="card-text">
       <div *ngFor="let note of folder.notes" class="note-row">
         <a *ngIf="note.id !== editedNote.id" href="#" class="btn btn-secondary btn-no-border" (click)="deleteNote(note)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
@@ -34,12 +35,12 @@
     <div class="modal-content">
       <form (ngSubmit)="createNewNote()" #newNoteForm="ngForm">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">New Note</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
           <input class="form-control new-note" placeholder="Title" [(ngModel)]="newNote.title" name="new-note-title" maxlength="20" required />
-          <input class="form-control new-note" placeholder="Details" [(ngModel)]="newNote.details" name="new-note-details" maxlength="100" required />  
+          <textarea class="form-control new-note" placeholder="Details" [(ngModel)]="newNote.details" name="new-note-details" maxlength="100" rows="3" required></textarea>  
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary" [disabled]="!newNoteForm.form.valid">Add</button>

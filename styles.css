@@ -60,3 +60,20 @@ body {
 button {
   cursor: pointer;
 }
+
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
+.centered {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.centered-text {
+  text-align: center;
+}
