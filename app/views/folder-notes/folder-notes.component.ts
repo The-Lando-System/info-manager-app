@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { UserService } from '../../sarlacc-client/user.service';
 import { User } from '../../sarlacc-client/user';
@@ -28,9 +29,12 @@ export class FolderNotesComponent implements OnInit {
   editedNote:Note = new Note();
   previousNote:Note = new Note();
 
+  isPrimary = false;
+
   private noteLoading = false;
 
   constructor(
+    private cookieSvc: CookieService,
     private folderSvc: FolderService,
     private noteSvc: NoteService,
     private userSvc: UserService,
@@ -43,9 +47,19 @@ export class FolderNotesComponent implements OnInit {
     this.route.params.forEach((params: Params) => {
       let id = params['id'];
       if (id){
+
+        let primaryFolderId = this.cookieSvc.get('primary-folder');
+
+        if (primaryFolderId === id) {
+          this.isPrimary = true;
+        }
+
         this.getFolderAndNotes(id);
       }
     });
+
+    
+
     this.listenForLogout();
   }
 
@@ -146,6 +160,16 @@ export class FolderNotesComponent implements OnInit {
         this.noteLoading = false;
       });
     }
+  }
+
+  makeFolderPrimary() {
+    this.route.params.forEach((params: Params) => {
+      let id = params['id'];
+      if (id){
+        this.cookieSvc.put('primary-folder',id);
+        this.isPrimary = true;
+      }
+    });
   }
 
 }

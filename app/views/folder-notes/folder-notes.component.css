@@ -52,3 +52,10 @@
 .btn-outline-primary:hover {
   background-color: #99caff!important;
 }
+
+.bottom {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 10px;
+  width: 90%;
+}

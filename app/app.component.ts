@@ -12,6 +12,8 @@ export class AppComponent {
 
   welcome = '';
 
+
+
   ngOnInit(): void {
     this.welcome = 'Info Manager';
   }

@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { Router } from '@angular/router';
 
 import { UserService } from '../../sarlacc-client/user.service';
 import { User } from '../../sarlacc-client/user';
@@ -44,7 +46,9 @@ export class FoldersComponent implements OnInit {
     private folderSvc: FolderService,
     private noteSvc: NoteService,
     private userSvc: UserService,
-    private broadcaster: Broadcaster
+    private broadcaster: Broadcaster,
+    private cookieSvc: CookieService,
+    private router: Router
   ){}
 
   ngOnInit(): void {
@@ -65,9 +69,22 @@ export class FoldersComponent implements OnInit {
   listenForLogin(): void {
    this.broadcaster.on<string>(this.userSvc.LOGIN_BCAST)
     .subscribe(message => {
+
+      
+
       this.userSvc.returnUser()
       .then((user:User) => {
         this.user = user;
+
+        let primaryFolderId = this.cookieSvc.get('primary-folder');
+
+        if (primaryFolderId) {
+          let path = '/folder/' + primaryFolderId;
+          this.router.navigate([path]);
+        } else {
+          this.router.navigate(['/folders']);
+        }
+
         this.getFolders();
       }).catch((res:any) => {
         console.log('Not getting folders... User is not logged in');
