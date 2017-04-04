@@ -12,6 +12,8 @@ import { Folder } from '../../models/folder/folder';
 import { NoteService } from '../../models/note/note.service';
 import { Note } from '../../models/note/note';
 
+import { PreferenceService } from '../../services/preference.service';
+
 @Component({
   moduleId: module.id,
   selector: 'folders',
@@ -48,7 +50,8 @@ export class FoldersComponent implements OnInit {
     private userSvc: UserService,
     private broadcaster: Broadcaster,
     private cookieSvc: CookieService,
-    private router: Router
+    private router: Router,
+    private preferenceSvc: PreferenceService
   ){}
 
   ngOnInit(): void {
@@ -70,22 +73,29 @@ export class FoldersComponent implements OnInit {
    this.broadcaster.on<string>(this.userSvc.LOGIN_BCAST)
     .subscribe(message => {
 
-      
+      this.homeLoading = true;
 
       this.userSvc.returnUser()
       .then((user:User) => {
-        this.user = user;
+        
 
-        let primaryFolderId = this.cookieSvc.get('primary-folder');
+        this.preferenceSvc.getPrimaryFolderId()
+        .then((primaryFolderId:string) => {
+          if (primaryFolderId) {
+            let path = '/folder/' + primaryFolderId;
+            this.router.navigate([path]);
+            this.homeLoading = false;
+          } else {
+            this.getFolders();
+            this.user = user;
+            this.homeLoading = false;
+          }
+        }).catch((res:any) => {
+          this.getFolders();
+          this.user = user;
+          this.homeLoading = false;
+        });
 
-        if (primaryFolderId) {
-          let path = '/folder/' + primaryFolderId;
-          this.router.navigate([path]);
-        } else {
-          this.router.navigate(['/folders']);
-        }
-
-        this.getFolders();
       }).catch((res:any) => {
         console.log('Not getting folders... User is not logged in');
         this.homeLoading = false;

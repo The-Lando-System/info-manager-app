@@ -12,6 +12,8 @@ import { Folder } from '../../models/folder/folder';
 import { NoteService } from '../../models/note/note.service';
 import { Note } from '../../models/note/note';
 
+import { PreferenceService } from '../../services/preference.service';
+
 @Component({
   moduleId: module.id,
   selector: 'folder-notes',
@@ -40,7 +42,8 @@ export class FolderNotesComponent implements OnInit {
     private userSvc: UserService,
     private route: ActivatedRoute,
     private broadcaster: Broadcaster,
-    private router: Router
+    private router: Router,
+    private preferenceSvc: PreferenceService
   ){}
 
   ngOnInit(): void {
@@ -48,13 +51,14 @@ export class FolderNotesComponent implements OnInit {
       let id = params['id'];
       if (id){
 
-        let primaryFolderId = this.cookieSvc.get('primary-folder');
+        this.preferenceSvc.getPrimaryFolderId()
+        .then((primaryFolderId:string) => {
+          if (primaryFolderId === id) {
+            this.isPrimary = true;
+          }
+          this.getFolderAndNotes(id);
+        }).catch((res:any) => {})
 
-        if (primaryFolderId === id) {
-          this.isPrimary = true;
-        }
-
-        this.getFolderAndNotes(id);
       }
     });
 
@@ -166,8 +170,10 @@ export class FolderNotesComponent implements OnInit {
     this.route.params.forEach((params: Params) => {
       let id = params['id'];
       if (id){
-        this.cookieSvc.put('primary-folder',id);
-        this.isPrimary = true;
+        this.preferenceSvc.savePrimaryFolder(id)
+        .then((res:any) => {
+          this.isPrimary = true;
+        }).catch((res:any) => {})
       }
     });
   }

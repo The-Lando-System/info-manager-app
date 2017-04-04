@@ -10,6 +10,9 @@ import { Logger } from 'angular2-logger/core';
 
 import { Broadcaster } from './sarlacc-client/broadcaster';
 import { UserService } from './sarlacc-client/user.service';
+
+import { PreferenceService } from './services/preference.service';
+
 import { AppComponent }  from './app.component';
 import { FoldersComponent } from './views/folders/folders.component';
 import { NavbarComponent } from './views/navbar/navbar.component';
@@ -49,7 +52,8 @@ import { FolderNotesComponent } from './views/folder-notes/folder-notes.componen
     Logger,
     CookieService,
     Broadcaster,
-    UserService
+    UserService,
+    PreferenceService
   ],
   bootstrap: [ AppComponent ]
 })
