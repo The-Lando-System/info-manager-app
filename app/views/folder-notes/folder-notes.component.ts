@@ -12,6 +12,8 @@ import { Folder } from '../../models/folder/folder';
 import { NoteService } from '../../models/note/note.service';
 import { Note } from '../../models/note/note';
 
+import { NoteOrderService } from '../../models/note-order/note-order.service';
+
 import { PreferenceService } from '../../services/preference.service';
 
 @Component({
@@ -21,7 +23,8 @@ import { PreferenceService } from '../../services/preference.service';
   styleUrls: [ 'folder-notes.component.css' ],
   providers: [
     FolderService,
-    NoteService
+    NoteService,
+    NoteOrderService
   ]
 })
 export class FolderNotesComponent implements OnInit {
@@ -43,7 +46,8 @@ export class FolderNotesComponent implements OnInit {
     private route: ActivatedRoute,
     private broadcaster: Broadcaster,
     private router: Router,
-    private preferenceSvc: PreferenceService
+    private preferenceSvc: PreferenceService,
+    private noteOrderSvc: NoteOrderService
   ){}
 
   ngOnInit(): void {
@@ -175,6 +179,32 @@ export class FolderNotesComponent implements OnInit {
           this.isPrimary = true;
         }).catch((res:any) => {})
       }
+    });
+  }
+
+  orderNotes() {
+    this.noteOrderSvc.orderNotes(this.folder.notes, this.folder.id)
+    .then((sortedNotes:Note[]) => {
+      console.log("Successfully sorted notes:");
+      console.log(sortedNotes);
+      //this.folder.notes = sortedNotes;
+    }).catch((unsortedNotes:Note[]) => {
+      console.log("Failed to sort notes:");
+      console.log(unsortedNotes);
+      //this.folder.notes = unsortedNotes;
+    });
+  }
+
+  setNoteOrder() {
+    this.noteOrderSvc.setNoteOrder(this.folder.id,this.folder.notes)
+    .then((res:any) => {
+      console.log("Successfully saved note order:");
+      console.log(res);
+      //this.folder.notes = sortedNotes;
+    }).catch((res:any) => {
+      console.log("Failed to save note order:");
+      console.log(res);
+      //this.folder.notes = unsortedNotes;
     });
   }
 
