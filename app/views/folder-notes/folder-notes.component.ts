@@ -175,13 +175,17 @@ export class FolderNotesComponent implements OnInit {
   }
 
   makeFolderPrimary() {
+    this.noteLoading = true;
     this.route.params.forEach((params: Params) => {
       let id = params['id'];
       if (id){
         this.preferenceSvc.savePrimaryFolder(id)
         .then((res:any) => {
           this.isPrimary = true;
-        }).catch((res:any) => {})
+          this.noteLoading = false;
+        }).catch((res:any) => {
+          this.noteLoading = false;
+        })
       }
     });
   }
@@ -196,13 +200,16 @@ export class FolderNotesComponent implements OnInit {
   }
 
   saveOrder() {
+    this.noteLoading = true;
     this.noteOrderSvc.setNoteOrder(this.folder.id,this.folder.notes)
     .then((res:any) => {
       console.log("Successfully saved note order");
       this.reorderMode = false;
+      this.noteLoading = false;
     }).catch((res:any) => {
       console.log("Failed to save note order");
       this.reorderMode = false;
+      this.noteLoading = false;
     });
   }
 

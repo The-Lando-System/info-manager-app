@@ -32,12 +32,10 @@
     <div *ngIf="noteLoading">
       <i class="fa fa-spinner fa-spin fa-3x modal-spinner" aria-hidden="true"></i>
     </div>
-    <div style="text-align: left">
+    <div style="text-align: right">
       <button *ngIf="!reorderMode" class="btn btn-secondary" (click)="reorderMode = true">Reorder</button>
-      <button *ngIf="reorderMode" class="btn btn-secondary" (click)="saveOrder()">Save</button>
-    </div>
-    <div *ngIf="!isPrimary" style="text-align: right">
-      <button class="btn btn-secondary" (click)="makeFolderPrimary()">Make Primary</button>
+      <button *ngIf="reorderMode" class="btn btn-secondary" (click)="saveOrder()">Save Order</button>
+      <button *ngIf="!isPrimary" class="btn btn-secondary" (click)="makeFolderPrimary()">Make Primary</button>
     </div>
   </div>
 </div>

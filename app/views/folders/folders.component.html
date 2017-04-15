@@ -1,5 +1,5 @@
 
-  <div *ngIf="user" class="row">
+  <div *ngIf="user && !homeLoading" class="row">
 
     <div class="col col-sm-4" *ngFor="let folder of folders">
       <div class="card card-block note-card">

@@ -12,6 +12,8 @@ import { Folder } from '../../models/folder/folder';
 import { NoteService } from '../../models/note/note.service';
 import { Note } from '../../models/note/note';
 
+import { NoteOrderService } from '../../models/note-order/note-order.service';
+
 import { PreferenceService } from '../../services/preference.service';
 
 @Component({
@@ -21,7 +23,8 @@ import { PreferenceService } from '../../services/preference.service';
   styleUrls: [ 'folders.component.css' ],
   providers: [
     FolderService,
-    NoteService
+    NoteService,
+    NoteOrderService
   ]
 })
 export class FoldersComponent implements OnInit {
@@ -51,7 +54,8 @@ export class FoldersComponent implements OnInit {
     private broadcaster: Broadcaster,
     private cookieSvc: CookieService,
     private router: Router,
-    private preferenceSvc: PreferenceService
+    private preferenceSvc: PreferenceService,
+    private noteOrderSvc: NoteOrderService
   ){}
 
   ngOnInit(): void {
@@ -120,25 +124,33 @@ export class FoldersComponent implements OnInit {
     .then((folders:any) => {
       this.folders = folders;
 
-      this.homeLoading = false;
-
       for (let folder of this.folders) {
         folder.notes = [];
 
-        var displayedNotes = 0;
+        this.noteSvc.getNotesInFolder(folder.id)
+        .then((notes:Note[]) => {
+          folder.notes = notes;
 
-        for (let noteId of folder.noteIds) {
+          this.noteOrderSvc.orderNotes(folder.notes, folder.id)
+          .then((sortedNotes:Note[]) => {
+            console.log("Successfully sorted notes");
 
-          if (displayedNotes < 3){
-            displayedNotes++;
-            this.noteSvc.getNoteById(noteId)
-            .then((note:any) => {
-              folder.notes.push(note);
-            }).catch((res:any) => {
+            folder.notes.splice(3,folder.notes.length-3);
 
-            });
-          }
-        }
+            this.homeLoading = false;
+
+          }).catch((unsortedNotes:Note[]) => {
+            console.log("Failed to sort notes");
+
+            folder.notes.splice(3,folder.notes.length-3);
+
+            this.homeLoading = false;
+          });
+          
+          
+        }).catch((res:any) => {
+          this.homeLoading = false;
+        });
         
       }
 
