@@ -38,6 +38,12 @@ export class FolderNotesComponent implements OnInit {
 
   private noteLoading = false;
 
+  reorderMode = false;
+
+  initResolve = true;
+  initReject = false;
+  initPromise:Promise<void>;
+
   constructor(
     private cookieSvc: CookieService,
     private folderSvc: FolderService,
@@ -51,6 +57,7 @@ export class FolderNotesComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
+
     this.route.params.forEach((params: Params) => {
       let id = params['id'];
       if (id){
@@ -85,16 +92,13 @@ export class FolderNotesComponent implements OnInit {
       this.folder = folder;
       this.folder.notes = [];
       this.noteLoading = false;
-      for (let noteId of this.folder.noteIds) {
-
-        this.noteSvc.getNoteById(noteId)
-        .then((note:any) => {
-          this.folder.notes.push(note);
-        }).catch((res:any) => {
-
-        });
-
-      }
+      this.noteSvc.getNotesInFolder(folderId)
+      .then((notes:Note[]) => {
+        this.folder.notes = notes;
+        this.orderNotes();
+      }).catch((res:any) => {
+        this.noteLoading = false;
+      });
     }).catch((res:any) => {
       this.noteLoading = false;
     });
@@ -185,27 +189,59 @@ export class FolderNotesComponent implements OnInit {
   orderNotes() {
     this.noteOrderSvc.orderNotes(this.folder.notes, this.folder.id)
     .then((sortedNotes:Note[]) => {
-      console.log("Successfully sorted notes:");
-      console.log(sortedNotes);
-      //this.folder.notes = sortedNotes;
+      console.log("Successfully sorted notes");
     }).catch((unsortedNotes:Note[]) => {
-      console.log("Failed to sort notes:");
-      console.log(unsortedNotes);
-      //this.folder.notes = unsortedNotes;
+      console.log("Failed to sort notes");
     });
   }
 
-  setNoteOrder() {
+  saveOrder() {
     this.noteOrderSvc.setNoteOrder(this.folder.id,this.folder.notes)
     .then((res:any) => {
-      console.log("Successfully saved note order:");
-      console.log(res);
-      //this.folder.notes = sortedNotes;
+      console.log("Successfully saved note order");
+      this.reorderMode = false;
     }).catch((res:any) => {
-      console.log("Failed to save note order:");
-      console.log(res);
-      //this.folder.notes = unsortedNotes;
+      console.log("Failed to save note order");
+      this.reorderMode = false;
     });
+  }
+
+  moveNoteUp(note:Note) {
+    event.preventDefault();
+
+    let noteIndex = 0;
+
+    for(var i=0; i<this.folder.notes.length; i++){
+      if (this.folder.notes[i].id === note.id){
+        noteIndex = i;
+      }
+    }
+
+    if (0 !== noteIndex){
+      this.folder.notes.splice(noteIndex,1);
+      noteIndex--;
+      this.folder.notes.splice(noteIndex,0,note);
+    }
+
+  }
+
+  moveNoteDown(note:Note) {
+    event.preventDefault();
+
+    let noteIndex = 0;
+
+    for(var i=0; i<this.folder.notes.length; i++){
+      if (this.folder.notes[i].id === note.id){
+        noteIndex = i;
+      }
+    }
+
+    if ((this.folder.notes.length-1) !== noteIndex){
+      this.folder.notes.splice(noteIndex,1);
+      noteIndex++;
+      this.folder.notes.splice(noteIndex,0,note);
+    }
+
   }
 
 }

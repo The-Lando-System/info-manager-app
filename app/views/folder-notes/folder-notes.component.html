@@ -7,7 +7,14 @@
     </h4>
     <div *ngIf="!noteLoading" class="card-text">
       <div *ngFor="let note of folder.notes" class="note-row">
-        <a *ngIf="note.id !== editedNote.id" href="#" class="btn btn-secondary btn-no-border" (click)="deleteNote(note)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+
+        <!-- Delete Note Icon -->
+        <a *ngIf="note.id !== editedNote.id && !reorderMode" href="#" class="btn btn-secondary btn-no-border" (click)="deleteNote(note)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+        
+        <!-- Reorder Icons -->
+        <a *ngIf="reorderMode" href="#" class="btn btn-secondary btn-no-border" (click)="moveNoteUp(note)"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+        <a *ngIf="reorderMode" href="#" class="btn btn-secondary btn-no-border" (click)="moveNoteDown(note)"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+        
         <span *ngIf="note.id !== editedNote.id" (click)="beginEdit(note);">{{note.title}} : {{note.details}}</span>
         <div *ngIf="note.id === editedNote.id" class="input-group details-input">
           <input class="form-control title-input" [(ngModel)]="editedNote.title" name="new-note-title" maxlength="20" required />
@@ -25,9 +32,12 @@
     <div *ngIf="noteLoading">
       <i class="fa fa-spinner fa-spin fa-3x modal-spinner" aria-hidden="true"></i>
     </div>
+    <div style="text-align: left">
+      <button *ngIf="!reorderMode" class="btn btn-secondary" (click)="reorderMode = true">Reorder</button>
+      <button *ngIf="reorderMode" class="btn btn-secondary" (click)="saveOrder()">Save</button>
+    </div>
     <div *ngIf="!isPrimary" style="text-align: right">
       <button class="btn btn-secondary" (click)="makeFolderPrimary()">Make Primary</button>
-      <button class="btn btn-secondary" (click)="setNoteOrder()">Set Note Order</button>
     </div>
   </div>
 </div>

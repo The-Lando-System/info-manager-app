@@ -73,4 +73,14 @@ export class NoteService {
 
   }
 
+  getNotesInFolder(folderId:String): Promise<Note[]> {
+    return this.http.get(this.foldersUrl + '/' + folderId + '/notes', {headers: this.userSvc.getAuthHeaders()})
+    .toPromise()
+    .then((res:any) => {
+      return res.json();
+    }).catch((res:any) => {
+      console.log("Failed to return notes for folder id " + folderId);
+    })
+}
+
 }
