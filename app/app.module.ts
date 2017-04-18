@@ -7,9 +7,7 @@ import { MaterialModule } from '@angular/material';
 import 'hammerjs/hammer.js';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Logger } from 'angular2-logger/core';
-
-import { Broadcaster } from './sarlacc-client/broadcaster';
-import { UserService } from './sarlacc-client/user.service';
+import { UserService, Broadcaster } from 'sarlacc-angular-client';
 
 import { PreferenceService } from './services/preference.service';
 

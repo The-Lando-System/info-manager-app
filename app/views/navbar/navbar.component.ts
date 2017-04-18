@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Broadcaster } from '../../sarlacc-client/broadcaster';
-import { UserService } from '../../sarlacc-client/user.service';
-import { User } from '../../sarlacc-client/user';
+import { UserService, User, Broadcaster } from 'sarlacc-angular-client';
 
 @Component({
   moduleId: module.id,

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-
-import { UserService } from '../../sarlacc-client/user.service';
+import { UserService } from 'sarlacc-angular-client';
 
 import { Globals } from '../../globals';
 

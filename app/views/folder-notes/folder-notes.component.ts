@@ -1,10 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-
-import { UserService } from '../../sarlacc-client/user.service';
-import { User } from '../../sarlacc-client/user';
-import { Broadcaster } from '../../sarlacc-client/broadcaster';
+import { UserService, User, Broadcaster } from 'sarlacc-angular-client';
 
 import { FolderService } from '../../models/folder/folder.service';
 import { Folder } from '../../models/folder/folder';
