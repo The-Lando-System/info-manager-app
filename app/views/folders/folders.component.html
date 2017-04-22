@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <div class="col col-sm-4" *ngIf="!homeLoading">
+    <div class="col col-sm-4" *ngIf="!homeLoading && demoFolders < 5">
       <div class="card card-block note-card">
         <form #newFolderForm="ngForm">
           <h4 class="card-title">

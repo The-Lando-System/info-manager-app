@@ -45,6 +45,8 @@ export class FoldersComponent implements OnInit {
   private editedFoldersOriginalName = "";
   private idOfEditingFolder:String = '';
 
+  private demoFolders = 0;
+
   constructor(
     private folderSvc: FolderService,
     private noteSvc: NoteService,
@@ -122,6 +124,15 @@ export class FoldersComponent implements OnInit {
     .then((folders:any) => {
       this.folders = folders;
 
+      if (this.user.role === 'DEMO'){
+        this.demoFolders = this.folders.length;
+      }
+
+      if (this.folders.length === 0){
+        this.homeLoading = false;
+        return;
+      }
+
       for (let folder of this.folders) {
         folder.notes = [];
 
@@ -152,6 +163,8 @@ export class FoldersComponent implements OnInit {
         
       }
 
+
+
     }).catch((res:any) => {
       this.homeLoading = false;
     });
@@ -163,6 +176,11 @@ export class FoldersComponent implements OnInit {
     this.newFolderLoading = true;
     this.folderSvc.createFolder(this.newFolder)
     .then((folder:any) => {
+
+      if (this.user.role === 'DEMO'){
+        this.demoFolders++;
+      }
+
       let newFolder: Folder = folder;
       newFolder.notes = [];
       newFolder.noteIds = [];
@@ -181,6 +199,9 @@ export class FoldersComponent implements OnInit {
     this.folderDeleteLoading = true;
     this.folderSvc.deleteFolderById(folderId)
     .then((res:any) => {
+
+      this.demoFolders--;
+
       for(var i=0; i<this.folders.length; i++){
         if (this.folders[i].id === folderId){
           this.folders.splice(i,1);

@@ -26,6 +26,8 @@ import { PreferenceService } from '../../services/preference.service';
 })
 export class FolderNotesComponent implements OnInit {
 
+  user:User;
+
   folder:Folder;
   newNote:Note = new Note();
   editedNote:Note = new Note();
@@ -40,6 +42,8 @@ export class FolderNotesComponent implements OnInit {
   initResolve = true;
   initReject = false;
   initPromise:Promise<void>;
+
+  private demoNotes = 0;
 
   constructor(
     private cookieSvc: CookieService,
@@ -59,13 +63,24 @@ export class FolderNotesComponent implements OnInit {
       let id = params['id'];
       if (id){
 
-        this.preferenceSvc.getPrimaryFolderId()
-        .then((primaryFolderId:string) => {
-          if (primaryFolderId === id) {
-            this.isPrimary = true;
-          }
-          this.getFolderAndNotes(id);
-        }).catch((res:any) => {})
+        this.userSvc.returnUser()
+        .then((user:User) => {
+
+          this.user = user;
+
+          this.preferenceSvc.getPrimaryFolderId()
+          .then((primaryFolderId:string) => {
+            if (primaryFolderId === id) {
+              this.isPrimary = true;
+            }
+            this.getFolderAndNotes(id);
+          }).catch((res:any) => {});
+
+        }).catch((res:any) => {
+          console.log(res);
+        });
+
+        
 
       }
     });
@@ -92,6 +107,11 @@ export class FolderNotesComponent implements OnInit {
       this.noteSvc.getNotesInFolder(folderId)
       .then((notes:Note[]) => {
         this.folder.notes = notes;
+
+        if (this.user.role === 'DEMO'){
+          this.demoNotes = this.folder.notes.length;
+        }
+
         this.orderNotes();
       }).catch((res:any) => {
         this.noteLoading = false;
@@ -105,6 +125,7 @@ export class FolderNotesComponent implements OnInit {
     this.noteLoading = true;
     this.noteSvc.createNoteInFolder(this.newNote, this.folder.id)
     .then((note:Note) => {
+      this.demoNotes++;
       this.folder.noteIds.push(note.id);
       this.folder.notes.push(note);
       this.newNote = new Note();
@@ -119,6 +140,9 @@ export class FolderNotesComponent implements OnInit {
     this.noteLoading = true;
     this.noteSvc.deleteNoteFromFolder(note, this.folder.id)
     .then((res:any) => {
+
+      this.demoNotes--;
+
       for(var i=0; i<this.folder.noteIds.length; i++){
         if (this.folder.noteIds[i] === note.id){
           this.folder.noteIds.splice(i,1);
