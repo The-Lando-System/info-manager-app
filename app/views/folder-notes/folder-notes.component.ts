@@ -125,7 +125,11 @@ export class FolderNotesComponent implements OnInit {
     this.noteLoading = true;
     this.noteSvc.createNoteInFolder(this.newNote, this.folder.id)
     .then((note:Note) => {
-      this.demoNotes++;
+
+      if (this.user.role === 'DEMO'){
+        this.demoNotes++;
+      }
+
       this.folder.noteIds.push(note.id);
       this.folder.notes.push(note);
       this.newNote = new Note();
@@ -141,7 +145,9 @@ export class FolderNotesComponent implements OnInit {
     this.noteSvc.deleteNoteFromFolder(note, this.folder.id)
     .then((res:any) => {
 
-      this.demoNotes--;
+      if (this.user.role === 'DEMO'){
+        this.demoNotes--;
+      }
 
       for(var i=0; i<this.folder.noteIds.length; i++){
         if (this.folder.noteIds[i] === note.id){

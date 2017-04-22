@@ -200,7 +200,9 @@ export class FoldersComponent implements OnInit {
     this.folderSvc.deleteFolderById(folderId)
     .then((res:any) => {
 
-      this.demoFolders--;
+      if (this.user.role === 'DEMO'){
+        this.demoFolders--;
+      }
 
       for(var i=0; i<this.folders.length; i++){
         if (this.folders[i].id === folderId){
