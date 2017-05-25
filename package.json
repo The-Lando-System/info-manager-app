@@ -1,7 +1,7 @@
 {
-  "name": "angular-quickstart",
+  "name": "info-manager-app",
   "version": "1.0.0",
-  "description": "QuickStart package.json from the documentation, supplemented with testing support",
+  "description": "Securely manage your information",
   "scripts": {
     "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
     "startProd": "tsc && concurrently \"tsc -w\" \"http-server -p 3000\" ",
