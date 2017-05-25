@@ -49,13 +49,7 @@
     "spa-http-server": "^0.9.0",
     "systemjs": "0.19.39",
     "typings": "^1.4.0",
-<<<<<<< HEAD
     "zone.js": "^0.6.25"
-=======
-    "zone.js": "^0.6.25",
-    "sarlacc-angular-client": "1.0.1",
-    "http-server": "^0.9.0"
->>>>>>> f77698d5fcab71e5a8918d02b66dd6acb9f314fa
   },
   "devDependencies": {
     "concurrently": "^3.0.0",
