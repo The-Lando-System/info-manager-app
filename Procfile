@@ -1,1 +1,1 @@
-npm start
+web: npm run tsc && concurrently "tsc -w" "http-server -p $PORT --push-state"
