@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
-import { MaterialModule } from '@angular/material';
 import 'hammerjs/hammer.js';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Logger } from 'angular2-logger/core';
@@ -22,7 +21,6 @@ import { FolderNotesComponent } from './views/folder-notes/folder-notes.componen
     BrowserModule,
     FormsModule,
     HttpModule,
-    MaterialModule.forRoot(),
     RouterModule.forRoot([
       {
         path: '',
