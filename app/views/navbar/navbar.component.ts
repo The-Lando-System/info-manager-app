@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
     this.userService.returnUser()
     .then((user:User) => {
       this.user = user;
-      this.sarlaccUrl = this.baseSarlaccUrl + this.userService.getToken().access_token;
+      this.sarlaccUrl = this.baseSarlaccUrl + this.user.token.access_token;
     }).catch((error:string) => {});
 
     this.listenForLogin();
@@ -43,7 +43,7 @@ export class NavbarComponent implements OnInit {
       this.userService.returnUser()
       .then((user:User) => {
         this.user = user;
-        this.sarlaccUrl = this.baseSarlaccUrl + this.userService.getToken().access_token;
+        this.sarlaccUrl = this.baseSarlaccUrl + this.user.token.access_token;
       }).catch((error:string) => {});
     });
   }
